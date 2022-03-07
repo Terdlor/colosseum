@@ -127,7 +127,12 @@ class BotApp : TelegramLongPollingBot() {
 
 
     private fun sendSimpleNotification(chatId: Long, responseText: String) {
-        val responseMessage = SendMessage(chatId.toString(), responseText)
+        val out : String = responseText
+                .replace("_", "\\_")
+                .replace("*", "\\*")
+                .replace("[", "\\[")
+                .replace("`", "\\`")
+        val responseMessage = SendMessage(chatId.toString(), out)
         responseMessage.enableMarkdown(true)
         execute(responseMessage)
     }
