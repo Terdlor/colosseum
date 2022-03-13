@@ -1,5 +1,6 @@
 package com.example.terdlor_first_bot
 
+import com.example.terdlor_first_bot.bd.DatabaseHelper
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Service
 import org.telegram.telegrambots.bots.TelegramLongPollingBot
@@ -68,6 +69,17 @@ class BotApp : TelegramLongPollingBot() {
             val dateCurrentLocalEnd = Date()
             strBuild.appendLine()
             strBuild.append(" <").append(sdfSSS.format(dateCurrentLocalEnd)).appendLine(">")
+
+            val userDao = DatabaseHelper.getUserDao()
+
+            userDao.saveIfNotExist(update.message.from)
+
+            val users = userDao.queryForAll()
+            strBuild.appendLine()
+            strBuild.appendLine("пользователи в БД")
+            for (user in users) {
+                strBuild.append(user.toString())
+            }
 
             println(strBuild.toString())
             val filename = sdfFile.format(dateCurrentLocalStart) + "-$fromuserName"
