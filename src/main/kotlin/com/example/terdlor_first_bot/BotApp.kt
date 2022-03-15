@@ -33,7 +33,9 @@ class BotApp : TelegramLongPollingBot() {
     override fun onUpdateReceived(update: Update) {
         val dateCurrentLocalStart = Date()
 
+        //todo npe добавлении в группу
         val text = update.message.text
+
         val messageId = update.message.messageId
         val dateMsg = Date(update.message.date.toLong()*1000)
         val date = sdf.format(dateMsg)
@@ -73,18 +75,74 @@ class BotApp : TelegramLongPollingBot() {
             val userDao = DatabaseHelper.getUserDao()
 
             userDao.saveIfNotExist(update.message.from)
+            userDao.saveIfNotExist(update.message.forwardFrom)
+
+            val chatDao = DatabaseHelper.getChatDao()
+            chatDao.saveIfNotExist(update.message.chat)
+
+            val sendIdList = HashMap<Long, Long>()
+
 
             val users = userDao.queryForAll()
             strBuild.appendLine()
             strBuild.appendLine("пользователи в БД")
             for (user in users) {
-                strBuild.append(user.toString())
+                strBuild.append(user.toStringWithOutEmpty())
+                sendIdList.put(user.id, user.id)
             }
 
+            val chats = chatDao.queryForAll()
+            strBuild.appendLine()
+            strBuild.appendLine("чаты в БД")
+            for (chat in chats) {
+                strBuild.append(chat.toStringWithOutEmpty())
+                sendIdList.put(chat.id, chat.id)
+            }
+
+
             println(strBuild.toString())
+
             val filename = sdfFile.format(dateCurrentLocalStart) + "-$fromuserName"
             saveLog(filename, strBuild.toString(), update.toString())
-            sendSimpleNotification(chatid, strBuild.toString())
+
+
+            if (update.message.newChatMembers.isNotEmpty()) {
+                for (newUser in update.message.newChatMembers) {
+                    userDao.saveIfNotExist(newUser)
+                    sendSimpleNotification(chatid, "@" + newUser.userName + " Врывается в чат", messageId)
+                }
+                return
+            }
+            if (update.message.leftChatMember != null) {
+                sendSimpleNotification(chatid, "@" + update.message.leftChatMember.userName + " Прощай", messageId)
+                return
+            }
+
+            if (text.equals("/dubasit")) {
+                for (chatId in sendIdList.values) {
+                    try {
+                        sendSimpleNotification(chatId, "ПОРА ЗАБИВАТЬ!!!", messageId)
+                    } catch (e : org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException){
+
+                    }
+                }
+                return
+            }
+
+            if (text.equals("СПААААМ")) {
+                for (chatId in sendIdList.values) {
+                    try {
+                        sendSimpleNotification(chatId, "ПЕСПЕРЕПЕС", messageId)
+                    } catch (e : org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException){
+
+                    }
+                }
+                return
+            }
+
+            if (chatid == fromId) {
+                sendSimpleNotification(chatid, strBuild.toString(), messageId)
+            }
 
 //        if (update.hasMessage()) {
 //            val message = update.message
@@ -119,7 +177,7 @@ class BotApp : TelegramLongPollingBot() {
             println(strBuild.toString())
             val filename = sdfFile.format(dateCurrentLocalStart) + "-$fromuserName"
             saveLog(filename, strBuild.toString(), update.toString())
-            sendSimpleNotification(chatid, strBuild.toString())
+            sendSimpleNotification(chatid, strBuild.toString(), messageId)
 
             throw ex
         }
@@ -136,31 +194,25 @@ class BotApp : TelegramLongPollingBot() {
         }
     }
 
-
-
-    private fun sendSimpleNotification(chatId: Long, responseText: String) {
+    private fun sendSimpleNotification(chatId: Long, responseText: String, num:  Int) {
         val out : String = responseText
                 .replace("_", "\\_")
                 .replace("*", "\\*")
                 .replace("[", "\\[")
                 .replace("`", "\\`")
-        val responseMessage = SendMessage(chatId.toString(), out)
-        responseMessage.enableMarkdown(true)
-        execute(responseMessage)
-    }
-
-    private fun sendNotification2(chatId: Long, responseText: String) {
-        val responseMessage = SendMessage(chatId.toString(), responseText)
+        val responseMessage = SendMessage(chatId.toString(), "$num  -  $out")
         responseMessage.enableMarkdown(true)
         // добавляем 4 кнопки
         responseMessage.replyMarkup = getReplyMarkup(
-            listOf(
-                listOf("Кнопка 1", "Кнопка 2"),
-                listOf("Кнопка 3", "Кнопка 4")
-            )
+                listOf(
+                        listOf("СПААААМ")
+                        //  listOf("Кнопка 1", "Кнопка 2"),
+                        //  listOf("Кнопка 3", "Кнопка 4")
+                )
         )
         execute(responseMessage)
     }
+
     private fun getReplyMarkup(allButtons: List<List<String>>): ReplyKeyboardMarkup {
         val markup = ReplyKeyboardMarkup()
         markup.keyboard = allButtons.map { rowButtons ->

@@ -7,7 +7,7 @@ import com.j256.ormlite.table.DatabaseTable
 class User {
 
     @DatabaseField
-    var id: Long? = null
+    var id: Long = -1
     @DatabaseField
     var isBot: Boolean? = null
     @DatabaseField
@@ -32,6 +32,22 @@ class User {
                 .append("firstName=$firstName, ").append("lastName=$lastName, ").append("languageCode=$languageCode, ")
                 .append("canJoinGroups=$canJoinGroups, ").append("canReadAllGroupMessages=$canReadAllGroupMessages, ")
                 .append("supportInlineQueries=$supportInlineQueries").appendLine("}")
+        return strBuild.toString()
+    }
+
+    fun toStringWithOutEmpty() : String {
+        val strBuild = StringBuilder()
+        strBuild.append("{")
+        strBuild.append("id=$id")
+        if (isBot != null) strBuild.append(", isBot=$isBot")
+        if (userName != null) strBuild.append(", userName=$userName")
+        if (firstName != null) strBuild.append(", firstName=$firstName")
+        if (lastName != null) strBuild.append(", lastName=$lastName")
+        if (languageCode != null) strBuild.append(", languageCode=$languageCode")
+        if (canJoinGroups != null) strBuild.append(", canJoinGroups=$canJoinGroups")
+        if (canReadAllGroupMessages != null) strBuild.append(", canReadAllGroupMessages=$canReadAllGroupMessages")
+        if (supportInlineQueries != null) strBuild.append(", supportInlineQueries=$supportInlineQueries")
+        strBuild.appendLine("}")
         return strBuild.toString()
     }
 }

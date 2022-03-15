@@ -1,8 +1,6 @@
 package com.example.terdlor_first_bot.bd
 
-import com.example.terdlor_first_bot.bd.model.User
-import com.example.terdlor_first_bot.bd.model.UserDao
-import com.example.terdlor_first_bot.bd.model.UserDaoImpl
+import com.example.terdlor_first_bot.bd.model.*
 import com.j256.ormlite.jdbc.JdbcPooledConnectionSource
 import com.j256.ormlite.support.ConnectionSource
 import com.j256.ormlite.table.TableUtils
@@ -30,9 +28,10 @@ class DatabaseHelper private constructor(){
             if (!connectionSource.isOpen("")) {
             //todo удаление из памяти старого конекта
                 connectionSource = JdbcPooledConnectionSource(url, username, password)
+                TableUtils.createTableIfNotExists(connectionSource, User::class.java)
+                TableUtils.createTableIfNotExists(connectionSource, Chat::class.java)
             }
             //TODO проверка на консистентность
-            TableUtils.createTableIfNotExists(connectionSource, User::class.java)
             return connectionSource
         }
 
@@ -42,6 +41,10 @@ class DatabaseHelper private constructor(){
 
         fun getUserDao() : UserDao {
             return UserDaoImpl(instance())
+        }
+
+        fun getChatDao() : ChatDao {
+            return ChatDaoImpl(instance())
         }
     }
 }

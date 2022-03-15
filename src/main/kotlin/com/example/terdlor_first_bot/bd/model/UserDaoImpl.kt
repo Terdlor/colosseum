@@ -12,8 +12,14 @@ class UserDaoImpl(connectionSource: ConnectionSource?) : BaseDaoImpl<User, Long>
         return super.queryForEq("userName", name)
     }
 
-    override fun saveIfNotExist(userTG : org.telegram.telegrambots.meta.api.objects.User) {
-        if  (findByName(userTG.userName)?.isEmpty() == true) {
+    @Throws(SQLException::class)
+    override fun findById(id: Long): List<User>?{
+        return super.queryForEq("id", id)
+    }
+
+    override fun saveIfNotExist(userTG: org.telegram.telegrambots.meta.api.objects.User?) {
+        if (userTG != null)
+        if  (findById(userTG.id)?.isEmpty() == true) {
             val user = User()
             user.id = userTG.id
             user.isBot = userTG.isBot

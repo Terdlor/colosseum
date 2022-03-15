@@ -7,5 +7,7 @@ interface UserDao : Dao<User, Long> {
     @Throws(SQLException::class)
     fun findByName(name: String?): List<User>?
 
-    fun saveIfNotExist(userTG : org.telegram.telegrambots.meta.api.objects.User)
+    fun findById(id: Long): List<User>?
+
+    fun saveIfNotExist(userTG : org.telegram.telegrambots.meta.api.objects.User?)
 }
