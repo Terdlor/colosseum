@@ -7,6 +7,7 @@ import org.telegram.telegrambots.bots.TelegramLongPollingBot
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage
 import org.telegram.telegrambots.meta.api.objects.Update
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardMarkup
+import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardRemove
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.KeyboardRow
 import java.io.File
 import java.nio.file.Paths
@@ -33,55 +34,45 @@ class BotApp : TelegramLongPollingBot() {
     override fun onUpdateReceived(update: Update) {
         val dateCurrentLocalStart = Date()
 
-        //todo npe добавлении в группу
-        val text = update.message.text
+        val messageDao = DatabaseHelper.getMessageDao()
+
+        messageDao.saveIfNotExist(update.message)
+
+        val text = update.message?.text
 
         val messageId = update.message.messageId
-        val dateMsg = Date(update.message.date.toLong()*1000)
-        val date = sdf.format(dateMsg)
         //from
         val fromId = update.message.from.id
-        val fromfirstName = update.message.from.firstName
-        val fromlastName = update.message.from.lastName
         val fromuserName = update.message.from.userName
         //chat
         val chatid = update.message.chat.id
-        val chatfirstName = update.message.chat.firstName
-        val chatlastName = update.message.chat.lastName
-        val chatuserName = update.message.chat.userName
         try {
             val strBuild = StringBuilder()
             strBuild.append(" <").append(sdfSSS.format(dateCurrentLocalStart)).appendLine(">")
             strBuild.appendLine()
-            strBuild.appendLine(date)
+            strBuild.appendLine(sdf.format(Date(update.message.date.toLong()*1000)))
             strBuild.append("messageId = ").appendLine(messageId)
             strBuild.append("text = ").appendLine(text)
             strBuild.appendLine()
             strBuild.appendLine("FROM")
             strBuild.append("fromId = ").appendLine(fromId)
-            strBuild.append("fromfirstName = ").appendLine(fromfirstName)
-            strBuild.append("fromlastName = ").appendLine(fromlastName)
-            strBuild.append("fromuserName = ").appendLine(fromuserName)
+            strBuild.append("fromfirstName = ").appendLine(update.message.from.firstName)
+            strBuild.append("fromlastName = ").appendLine(update.message.from.lastName)
+            strBuild.append("fromuserName = ").appendLine(update.message.from.userName)
             strBuild.appendLine()
             strBuild.appendLine("CHAT")
             strBuild.append("chatid = ").appendLine(chatid)
-            strBuild.append("chatfirstName = ").appendLine(chatfirstName)
-            strBuild.append("chatlastName = ").appendLine(chatlastName)
-            strBuild.append("chatuserName = ").appendLine(chatuserName)
+            strBuild.append("chatfirstName = ").appendLine(update.message.chat.firstName)
+            strBuild.append("chatlastName = ").appendLine(update.message.chat.lastName)
+            strBuild.append("chatuserName = ").appendLine(update.message.chat.userName)
             val dateCurrentLocalEnd = Date()
             strBuild.appendLine()
             strBuild.append(" <").append(sdfSSS.format(dateCurrentLocalEnd)).appendLine(">")
 
             val userDao = DatabaseHelper.getUserDao()
-
-            userDao.saveIfNotExist(update.message.from)
-            userDao.saveIfNotExist(update.message.forwardFrom)
-
             val chatDao = DatabaseHelper.getChatDao()
-            chatDao.saveIfNotExist(update.message.chat)
 
             val sendIdList = HashMap<Long, Long>()
-
 
             val users = userDao.queryForAll()
             strBuild.appendLine()
@@ -118,10 +109,19 @@ class BotApp : TelegramLongPollingBot() {
                 return
             }
 
+            //пин+
+            if (text == null) {
+                return
+            }
+
             if (text.equals("/dubasit")) {
                 for (chatId in sendIdList.values) {
                     try {
-                        sendSimpleNotification(chatId, "ПОРА ЗАБИВАТЬ!!!", messageId)
+                        if (chatId > 0) {
+                            sendSimpleNotificationWithButton(chatId, "ПОРА ЗАБИВАТЬ!!!", messageId)
+                        } else {
+                            sendSimpleNotification(chatId, "ПОРА ЗАБИВАТЬ!!!", messageId)
+                        }
                     } catch (e : org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException){
 
                     }
@@ -132,7 +132,11 @@ class BotApp : TelegramLongPollingBot() {
             if (text.equals("СПААААМ")) {
                 for (chatId in sendIdList.values) {
                     try {
-                        sendSimpleNotification(chatId, "ПЕСПЕРЕПЕС", messageId)
+                        if (chatId > 0) {
+                            sendSimpleNotificationWithButton(chatId, "ПЕСПЕРЕПЕС", messageId)
+                        } else {
+                            sendSimpleNotification(chatId, "ПЕСПЕРЕПЕС", messageId)
+                        }
                     } catch (e : org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException){
 
                     }
@@ -141,7 +145,7 @@ class BotApp : TelegramLongPollingBot() {
             }
 
             if (chatid == fromId) {
-                sendSimpleNotification(chatid, strBuild.toString(), messageId)
+                sendSimpleNotificationWithButton(chatid, strBuild.toString(), messageId)
             }
 
 //        if (update.hasMessage()) {
@@ -202,6 +206,18 @@ class BotApp : TelegramLongPollingBot() {
                 .replace("`", "\\`")
         val responseMessage = SendMessage(chatId.toString(), "$num  -  $out")
         responseMessage.enableMarkdown(true)
+        responseMessage.replyMarkup = getReplyRemove()
+        execute(responseMessage)
+    }
+
+    private fun sendSimpleNotificationWithButton(chatId: Long, responseText: String, num:  Int) {
+        val out : String = responseText
+                .replace("_", "\\_")
+                .replace("*", "\\*")
+                .replace("[", "\\[")
+                .replace("`", "\\`")
+        val responseMessage = SendMessage(chatId.toString(), "$num  -  $out")
+        responseMessage.enableMarkdown(true)
         // добавляем 4 кнопки
         responseMessage.replyMarkup = getReplyMarkup(
                 listOf(
@@ -211,6 +227,12 @@ class BotApp : TelegramLongPollingBot() {
                 )
         )
         execute(responseMessage)
+    }
+
+    private fun getReplyRemove(): ReplyKeyboardRemove {
+        val markup = ReplyKeyboardRemove()
+        markup.removeKeyboard = true
+        return markup
     }
 
     private fun getReplyMarkup(allButtons: List<List<String>>): ReplyKeyboardMarkup {

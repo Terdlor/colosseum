@@ -30,6 +30,7 @@ class DatabaseHelper private constructor(){
                 connectionSource = JdbcPooledConnectionSource(url, username, password)
                 TableUtils.createTableIfNotExists(connectionSource, User::class.java)
                 TableUtils.createTableIfNotExists(connectionSource, Chat::class.java)
+                TableUtils.createTableIfNotExists(connectionSource, Message::class.java)
             }
             //TODO проверка на консистентность
             return connectionSource
@@ -45,6 +46,10 @@ class DatabaseHelper private constructor(){
 
         fun getChatDao() : ChatDao {
             return ChatDaoImpl(instance())
+        }
+
+        fun getMessageDao() : MessageDao {
+            return MessageDaoImpl(instance())
         }
     }
 }
