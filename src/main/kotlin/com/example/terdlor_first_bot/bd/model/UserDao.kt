@@ -4,10 +4,12 @@ import com.j256.ormlite.dao.Dao
 import java.sql.SQLException
 
 interface UserDao : Dao<User, Long> {
-    @Throws(SQLException::class)
-    fun findByName(name: String?): List<User>?
 
-    fun findById(id: Long): List<User>?
+    @Throws(SQLException::class)
+    fun findByName(name: String?): User?
+
+    @Throws(SQLException::class)
+    fun findById(id: Long): User?
 
     fun saveIfNotExist(userTG : org.telegram.telegrambots.meta.api.objects.User?)
 }

@@ -105,7 +105,7 @@ class Chat {
         if (bio != null) strBuild.append(", bio=$bio")
         if (linkedChatId != null) strBuild.append(", linkedChatId=$linkedChatId")
         if (messageAutoDeleteTime != null) strBuild.append(", messageAutoDeleteTime=$messageAutoDeleteTime")
-        strBuild.appendLine("}")
+        strBuild.append("}")
         return strBuild.toString()
     }
 }

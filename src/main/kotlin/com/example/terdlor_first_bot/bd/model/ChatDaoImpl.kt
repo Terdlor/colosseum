@@ -2,16 +2,23 @@ package com.example.terdlor_first_bot.bd.model
 
 import com.j256.ormlite.dao.BaseDaoImpl
 import com.j256.ormlite.support.ConnectionSource
+import java.sql.SQLException
 
 class ChatDaoImpl(connectionSource: ConnectionSource?) : BaseDaoImpl<Chat, Long>(connectionSource, Chat::class.java), ChatDao {
 
-    override fun findById(id: Long): List<Chat>?{
-        return super.queryForEq("id", id)
+    @Throws(SQLException::class)
+    override fun findById(id: Long): Chat?{
+        val res = super.queryForEq("id", id)
+        if (res.isEmpty()){
+            return null
+        } else {
+            return res[0]
+        }
     }
 
     override fun saveIfNotExist(chatTG: org.telegram.telegrambots.meta.api.objects.Chat?) {
         if (chatTG != null)
-            if  (findById(chatTG.id)?.isEmpty() == true) {
+            if  (findById(chatTG.id) == null ) {
                 val chat = Chat()
                 chat.id = chatTG.id
                 chat.type = chatTG.type

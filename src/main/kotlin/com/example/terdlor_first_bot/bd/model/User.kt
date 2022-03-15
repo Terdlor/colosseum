@@ -47,7 +47,7 @@ class User {
         if (canJoinGroups != null) strBuild.append(", canJoinGroups=$canJoinGroups")
         if (canReadAllGroupMessages != null) strBuild.append(", canReadAllGroupMessages=$canReadAllGroupMessages")
         if (supportInlineQueries != null) strBuild.append(", supportInlineQueries=$supportInlineQueries")
-        strBuild.appendLine("}")
+        strBuild.append("}")
         return strBuild.toString()
     }
 }

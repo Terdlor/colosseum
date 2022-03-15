@@ -9,13 +9,18 @@ import java.sql.SQLException
 class MessageDaoImpl(connectionSource: ConnectionSource?) : BaseDaoImpl<Message, Long>(connectionSource, Message::class.java), MessageDao {
 
     @Throws(SQLException::class)
-    override fun findById(id: Int): List<Message>?{
-        return super.queryForEq("messageId", id)
+    override fun findById(id: Int): Message?{
+        val res = super.queryForEq("messageId", id)
+        if (res.isEmpty()){
+            return null
+        } else {
+            return res[0]
+        }
     }
 
     override fun saveIfNotExist(messageTG: org.telegram.telegrambots.meta.api.objects.Message?) {
         if (messageTG != null)
-            if  (findById(messageTG.messageId)?.isEmpty() == true) {
+            if  (findById(messageTG.messageId) != null) {
                 val message = Message()
                 message.messageId = messageTG.messageId
 

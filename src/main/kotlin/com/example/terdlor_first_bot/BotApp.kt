@@ -50,21 +50,7 @@ class BotApp : TelegramLongPollingBot() {
             val strBuild = StringBuilder()
             strBuild.append(" <").append(sdfSSS.format(dateCurrentLocalStart)).appendLine(">")
             strBuild.appendLine()
-            strBuild.appendLine(sdf.format(Date(update.message.date.toLong()*1000)))
-            strBuild.append("messageId = ").appendLine(messageId)
-            strBuild.append("text = ").appendLine(text)
-            strBuild.appendLine()
-            strBuild.appendLine("FROM")
-            strBuild.append("fromId = ").appendLine(fromId)
-            strBuild.append("fromfirstName = ").appendLine(update.message.from.firstName)
-            strBuild.append("fromlastName = ").appendLine(update.message.from.lastName)
-            strBuild.append("fromuserName = ").appendLine(update.message.from.userName)
-            strBuild.appendLine()
-            strBuild.appendLine("CHAT")
-            strBuild.append("chatid = ").appendLine(chatid)
-            strBuild.append("chatfirstName = ").appendLine(update.message.chat.firstName)
-            strBuild.append("chatlastName = ").appendLine(update.message.chat.lastName)
-            strBuild.append("chatuserName = ").appendLine(update.message.chat.userName)
+            strBuild.appendLine(messageDao.findById(update.message.messageId)?.toStringWithOutEmpty())
             val dateCurrentLocalEnd = Date()
             strBuild.appendLine()
             strBuild.append(" <").append(sdfSSS.format(dateCurrentLocalEnd)).appendLine(">")
@@ -79,6 +65,7 @@ class BotApp : TelegramLongPollingBot() {
             strBuild.appendLine("пользователи в БД")
             for (user in users) {
                 strBuild.append(user.toStringWithOutEmpty())
+                strBuild.appendLine()
                 sendIdList.put(user.id, user.id)
             }
 
@@ -87,6 +74,7 @@ class BotApp : TelegramLongPollingBot() {
             strBuild.appendLine("чаты в БД")
             for (chat in chats) {
                 strBuild.append(chat.toStringWithOutEmpty())
+                strBuild.appendLine()
                 sendIdList.put(chat.id, chat.id)
             }
 
