@@ -1,6 +1,8 @@
-package com.example.terdlor_first_bot.bd.model
+package com.example.terdlor_first_bot.bd.dao.impl
 
 import com.example.terdlor_first_bot.bd.DatabaseHelper
+import com.example.terdlor_first_bot.bd.dao.MessageDao
+import com.example.terdlor_first_bot.bd.model.Message
 import com.j256.ormlite.dao.BaseDaoImpl
 import com.j256.ormlite.support.ConnectionSource
 import java.sql.SQLException
@@ -20,7 +22,7 @@ class MessageDaoImpl(connectionSource: ConnectionSource?) : BaseDaoImpl<Message,
 
     override fun saveIfNotExist(messageTG: org.telegram.telegrambots.meta.api.objects.Message?) {
         if (messageTG != null)
-            if  (findById(messageTG.messageId) != null) {
+            if  (findById(messageTG.messageId) == null) {
                 val message = Message()
                 message.messageId = messageTG.messageId
 
@@ -47,6 +49,8 @@ class MessageDaoImpl(connectionSource: ConnectionSource?) : BaseDaoImpl<Message,
                 message.forwardDate = messageTG.forwardDate
                 message.text = messageTG.text
                 create(message)
+            } else {
+                println("------------------------------KAK--------------------------")
             }
     }
 }

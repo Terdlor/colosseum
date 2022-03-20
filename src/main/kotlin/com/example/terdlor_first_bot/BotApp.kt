@@ -132,6 +132,21 @@ class BotApp : TelegramLongPollingBot() {
                 return
             }
 
+            if (text.equals("ПИВА")) {
+                for (chatId in sendIdList.values) {
+                    try {
+                        if (chatId > 0) {
+                            sendSimpleNotificationWithButton(chatId, "ПИВА", messageId)
+                        } else {
+                            sendSimpleNotification(chatId, "ПИВА", messageId)
+                        }
+                    } catch (e : org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException){
+
+                    }
+                }
+                return
+            }
+
             if (chatid == fromId) {
                 sendSimpleNotificationWithButton(chatid, strBuild.toString(), messageId)
             }
