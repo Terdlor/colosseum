@@ -2,6 +2,7 @@ package com.example.terdlor_first_bot.bd.model
 
 import com.j256.ormlite.field.DatabaseField
 import com.j256.ormlite.table.DatabaseTable
+import java.util.*
 
 @DatabaseTable(tableName = "CHATS")
 class Chat {
@@ -61,6 +62,9 @@ class Chat {
     @DatabaseField
     var messageAutoDeleteTime: Int? = null
 
+    @DatabaseField()
+    var insert_date: Date? = null
+
     override fun toString() : String {
         val strBuild = StringBuilder()
         strBuild.append("{")
@@ -73,7 +77,7 @@ class Chat {
                 .append("permissionsCanSendOtherMessages=$permissionsCanSendOtherMessages").append("permissionsCanAddWebPagePreviews=$permissionsCanAddWebPagePreviews, ").append("permissionsCanChangeInfo=$permissionsCanChangeInfo, ")
                 .append("permissionsCanInviteUsers=$permissionsCanInviteUsers").append("permissionsCanPinMessages=$permissionsCanPinMessages, ")
                 .append("slowModeDelay=$slowModeDelay").append("bio=$bio, ").append("linkedChatId=$linkedChatId, ")
-                .append("messageAutoDeleteTime=$messageAutoDeleteTime, ").appendLine("}")
+                .append("messageAutoDeleteTime=$messageAutoDeleteTime, ").append("insert_date=$insert_date").appendLine("}")
         return strBuild.toString()
     }
 
@@ -105,6 +109,7 @@ class Chat {
         if (bio != null) strBuild.append(", bio=$bio")
         if (linkedChatId != null) strBuild.append(", linkedChatId=$linkedChatId")
         if (messageAutoDeleteTime != null) strBuild.append(", messageAutoDeleteTime=$messageAutoDeleteTime")
+        if (insert_date != null) strBuild.append(", insert_date=$insert_date")
         strBuild.append("}")
         return strBuild.toString()
     }

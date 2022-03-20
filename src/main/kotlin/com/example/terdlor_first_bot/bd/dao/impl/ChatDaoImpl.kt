@@ -5,6 +5,7 @@ import com.example.terdlor_first_bot.bd.model.Chat
 import com.j256.ormlite.dao.BaseDaoImpl
 import com.j256.ormlite.support.ConnectionSource
 import java.sql.SQLException
+import java.util.*
 
 class ChatDaoImpl(connectionSource: ConnectionSource?) : BaseDaoImpl<Chat, Long>(connectionSource, Chat::class.java), ChatDao {
 
@@ -47,6 +48,7 @@ class ChatDaoImpl(connectionSource: ConnectionSource?) : BaseDaoImpl<Chat, Long>
                 }
                 chat.slowModeDelay = chatTG.slowModeDelay
                 chat.messageAutoDeleteTime = chatTG.messageAutoDeleteTime
+                chat.insert_date = Date()
                 create(chat)
             }
     }

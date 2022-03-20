@@ -6,6 +6,7 @@ import com.example.terdlor_first_bot.bd.model.Message
 import com.j256.ormlite.dao.BaseDaoImpl
 import com.j256.ormlite.support.ConnectionSource
 import java.sql.SQLException
+import java.util.*
 
 
 class MessageDaoImpl(connectionSource: ConnectionSource?) : BaseDaoImpl<Message, Long>(connectionSource, Message::class.java), MessageDao {
@@ -48,6 +49,7 @@ class MessageDaoImpl(connectionSource: ConnectionSource?) : BaseDaoImpl<Message,
 
                 message.forwardDate = messageTG.forwardDate
                 message.text = messageTG.text
+                message.insert_date = Date()
                 create(message)
             } else {
                 println("------------------------------KAK--------------------------")

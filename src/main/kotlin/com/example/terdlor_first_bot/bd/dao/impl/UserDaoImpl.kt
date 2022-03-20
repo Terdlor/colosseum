@@ -5,6 +5,7 @@ import com.example.terdlor_first_bot.bd.model.User
 import com.j256.ormlite.dao.BaseDaoImpl
 import com.j256.ormlite.support.ConnectionSource
 import java.sql.SQLException
+import java.util.*
 
 
 class UserDaoImpl(connectionSource: ConnectionSource?) : BaseDaoImpl<User, Long>(connectionSource, User::class.java), UserDao {
@@ -42,6 +43,7 @@ class UserDaoImpl(connectionSource: ConnectionSource?) : BaseDaoImpl<User, Long>
             user.canJoinGroups = userTG.canJoinGroups
             user.canReadAllGroupMessages = userTG.canReadAllGroupMessages
             user.supportInlineQueries = userTG.supportInlineQueries
+            user.insert_date = Date()
             create(user)
         }
     }

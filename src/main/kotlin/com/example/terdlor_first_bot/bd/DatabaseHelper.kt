@@ -19,7 +19,7 @@ import org.springframework.beans.factory.annotation.Value
 class DatabaseHelper private constructor(){
 
     companion object {
-        private const val DATABASE_VERSION = 1L
+        private const val DATABASE_VERSION = 2L
 
         @Value("\${spring.datasource.username}")
         private val username: String = "sa"
@@ -42,14 +42,24 @@ class DatabaseHelper private constructor(){
                         TableUtils.createTableIfNotExists(connectionSource, Chat::class.java)
                         TableUtils.createTableIfNotExists(connectionSource, Message::class.java)
                         DbInfoDaoImpl(connectionSource).save(DATABASE_VERSION)
-                        println("---обновление до $DATABASE_VERSION---")
+                        println("---обновление бд до $DATABASE_VERSION---")
+                    }
+                    1L -> {
+                        val dao = DbInfoDaoImpl(connectionSource)
+                        dao.executeRaw("ALTER TABLE `USERS` ADD COLUMN IF NOT EXISTS insert_date TIMESTAMP;")
+                        dao.executeRaw("ALTER TABLE `CHATS` ADD COLUMN IF NOT EXISTS insert_date TIMESTAMP;")
+                        dao.executeRaw("ALTER TABLE `MESSAGE` ADD COLUMN IF NOT EXISTS insert_date TIMESTAMP;")
+                        dao.executeRaw("ALTER TABLE `MESSAGE` ADD COLUMN IF NOT EXISTS rs VARCHAR(255);")
+                        dao.executeRaw("ALTER TABLE `MESSAGE` ADD COLUMN IF NOT EXISTS rs_chat_id VARCHAR(255);")
+                        dao.save(DATABASE_VERSION)
+                        println("---обновление бд до $DATABASE_VERSION---")
                     }
                     else -> {
                         println("---действий по изменению бд не требуется---")
                     }
                 }
             }
-            return connectionSource ?: JdbcPooledConnectionSource(url, username, password)
+            return connectionSource!!
         }
 
         fun close() {
