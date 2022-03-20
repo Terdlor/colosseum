@@ -36,17 +36,16 @@ class DatabaseHelper private constructor(){
             if (connectionSource == null ||  !connectionSource?.isOpen("")!!) {
             //todo удаление из памяти старого конекта
                 connectionSource = JdbcPooledConnectionSource(url, username, password)
-                //todo сделать запрос ласт версии без падения (таблицы нет)
-                TableUtils.createTableIfNotExists(connectionSource, DbInfo::class.java)
-                when(DbInfoDaoImpl(connectionSource).lastVersion() ?: 0) {
+                when(DbInfoDaoImpl(connectionSource).lastVersion()) {
                            0L -> {
+                               TableUtils.createTableIfNotExists(connectionSource, DbInfo::class.java)
                                TableUtils.createTableIfNotExists(connectionSource, User::class.java)
                                TableUtils.createTableIfNotExists(connectionSource, Chat::class.java)
                                TableUtils.createTableIfNotExists(connectionSource, Message::class.java)
-                               DbInfoDaoImpl(connectionSource).save(0)
+                               DbInfoDaoImpl(connectionSource).save(1)
                            }
                     else -> {
-                        println("----------------------------444444----------------")
+                        println("---действий по изменению бд не требуется---")
                     }
                 }
             }
