@@ -7,7 +7,7 @@ import java.util.*
 @DatabaseTable(tableName = "CHATS")
 class Chat {
 
-    @DatabaseField
+    @DatabaseField(generatedId = false, id = true)
     var id: Long = -1
     @DatabaseField
     var type: String? = null

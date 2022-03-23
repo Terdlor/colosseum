@@ -52,4 +52,8 @@ class ChatDaoImpl(connectionSource: ConnectionSource?) : BaseDaoImpl<Chat, Long>
                 create(chat)
             }
     }
+
+    override fun getActive() : List<Chat> {
+        return super.queryForAll()
+    }
 }

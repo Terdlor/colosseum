@@ -7,7 +7,7 @@ import java.util.*
 @DatabaseTable(tableName = "USERS")
 class User {
 
-    @DatabaseField
+    @DatabaseField(generatedId = false, id = true)
     var id: Long = -1
     @DatabaseField
     var isBot: Boolean? = null

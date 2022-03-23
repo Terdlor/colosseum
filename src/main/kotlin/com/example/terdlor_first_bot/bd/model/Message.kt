@@ -8,7 +8,7 @@ import java.util.*
 @DatabaseTable(tableName = "MESSAGE")
 class Message {
 
-    @DatabaseField
+    @DatabaseField(generatedId = false, id = true)
     var messageId: Int = 1
     @DatabaseField
     var from: Long = -1
@@ -25,8 +25,10 @@ class Message {
     @DatabaseField
     var text: String? = null
 
-    @DatabaseField()
+    @DatabaseField
     var insert_date: Date? = null
+    @DatabaseField
+    var rq: String? = null
     @DatabaseField
     var rs: String? = null
     @DatabaseField
@@ -38,7 +40,7 @@ class Message {
                 .append("messageId=$messageId, ").append("from=$from, ").append("date=$date, ")
                 .append("chat=$chat, ").append("forwardFrom=$forwardFrom, ").append("forwardFromChat=$forwardFromChat, ")
                 .append("forwardDate=$forwardDate, ").append("text=$text, ")
-                .append("insert_date=$insert_date, ").append("rs=$rs, ").append("rs_chat_id=$rs_chat_id").appendLine("}")
+                .append("insert_date=$insert_date, ").append("rq=$rq, ").append("rs=$rs, ").append("rs_chat_id=$rs_chat_id").appendLine("}")
         return strBuild.toString()
     }
 
@@ -58,6 +60,7 @@ class Message {
         if (forwardDate != null) strBuild.append(", forwardDate=$forwardDate")
         if (text != null) strBuild.append(", text=$text")
         if (insert_date != null) strBuild.append(", insert_date=$insert_date")
+        if (rq != null) strBuild.append(", rq=$rq")
         if (rs != null) strBuild.append(", rs=$rs")
         if (rs_chat_id != null) strBuild.append(", rs_chat_id=$rs_chat_id")
         strBuild.append("}")

@@ -24,35 +24,41 @@ class MessageDaoImpl(connectionSource: ConnectionSource?) : BaseDaoImpl<Message,
     override fun saveIfNotExist(messageTG: org.telegram.telegrambots.meta.api.objects.Message?) {
         if (messageTG != null)
             if  (findById(messageTG.messageId) == null) {
-                val message = Message()
-                message.messageId = messageTG.messageId
-
-                val userDao = DatabaseHelper.getUserDao()
-                userDao.saveIfNotExist(messageTG.from)
-                message.from = messageTG.from.id
-
-                message.date = messageTG.date
-
-                val chatDao = DatabaseHelper.getChatDao()
-                chatDao.saveIfNotExist(messageTG.chat)
-                message.chat = messageTG.chat.id
-
-                if (messageTG.forwardFrom != null) {
-                    userDao.saveIfNotExist(messageTG.forwardFrom)
-                    message.forwardFrom = messageTG.forwardFrom.id
-                }
-
-                if (messageTG.forwardFromChat != null) {
-                    chatDao.saveIfNotExist(messageTG.forwardFromChat)
-                    message.forwardFromChat = messageTG.forwardFromChat.id
-                }
-
-                message.forwardDate = messageTG.forwardDate
-                message.text = messageTG.text
-                message.insert_date = Date()
-                create(message)
+                save(messageTG)
             } else {
                 println("------------------------------KAK--------------------------")
             }
+    }
+
+    override fun save(messageTG: org.telegram.telegrambots.meta.api.objects.Message) : Message {
+        val message = Message()
+        message.messageId = messageTG.messageId
+
+        val userDao = DatabaseHelper.getUserDao()
+        userDao.saveIfNotExist(messageTG.from)
+        message.from = messageTG.from.id
+
+        message.date = messageTG.date
+
+        val chatDao = DatabaseHelper.getChatDao()
+        chatDao.saveIfNotExist(messageTG.chat)
+        message.chat = messageTG.chat.id
+
+        if (messageTG.forwardFrom != null) {
+            userDao.saveIfNotExist(messageTG.forwardFrom)
+            message.forwardFrom = messageTG.forwardFrom.id
+        }
+
+        if (messageTG.forwardFromChat != null) {
+            chatDao.saveIfNotExist(messageTG.forwardFromChat)
+            message.forwardFromChat = messageTG.forwardFromChat.id
+        }
+
+        message.forwardDate = messageTG.forwardDate
+        message.text = messageTG.text
+        message.insert_date = Date()
+        message.rq = messageTG.toString()
+        create(message)
+        return message
     }
 }

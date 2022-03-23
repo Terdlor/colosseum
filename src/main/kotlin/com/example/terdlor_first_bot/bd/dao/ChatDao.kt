@@ -10,4 +10,6 @@ interface ChatDao : Dao<Chat, Long> {
     fun findById(id: Long): Chat?
 
     fun saveIfNotExist(chatTG : org.telegram.telegrambots.meta.api.objects.Chat?)
+
+    fun getActive() : List<Chat>
 }

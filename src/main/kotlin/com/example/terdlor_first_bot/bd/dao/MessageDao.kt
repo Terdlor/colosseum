@@ -10,4 +10,6 @@ interface MessageDao : Dao<Message, Long> {
     fun findById(id: Int): Message?
 
     fun saveIfNotExist(messageTG : org.telegram.telegrambots.meta.api.objects.Message?)
+
+    fun save(messageTG: org.telegram.telegrambots.meta.api.objects.Message) : Message
 }
