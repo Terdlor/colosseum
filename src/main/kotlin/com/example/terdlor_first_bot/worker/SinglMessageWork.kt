@@ -36,7 +36,7 @@ class SinglMessageWork(tgb_p : TelegramLongPollingBot) : SystemMessageWork(tgb_p
         } catch (ex : Exception){
             val str =Печататель().дайException(ex)
             println(str)
-            LogHelper().saveLog(str, "ОШИБКА-Singl" + DatabaseHelper.getUserDao().findById(msg.from)?.userName!!)
+            LogHelper().saveLog(str, "ОШИБКА-Singl-" + DatabaseHelper.getUserDao().findById(msg.from)?.userName!!)
             SinglResponseHelper(tgb).sendSimpleNotification(msg.chat, str, msg.messageId)
             return false
         }

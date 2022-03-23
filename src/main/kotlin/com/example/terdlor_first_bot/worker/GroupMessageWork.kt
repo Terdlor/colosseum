@@ -18,7 +18,7 @@ class GroupMessageWork(tgb_p : TelegramLongPollingBot) : SystemMessageWork(tgb_p
         } catch (ex : Exception){
             val str =Печататель().дайException(ex)
             println(str)
-            LogHelper().saveLog(str, "ОШИБКА-Group" + DatabaseHelper.getUserDao().findById(msg.from)?.userName!!)
+            LogHelper().saveLog(str, "ОШИБКА-Group-" + DatabaseHelper.getUserDao().findById(msg.from)?.userName!!)
             GroupResponseHelper(tgb).sendSimpleNotification(msg.chat, str, msg.messageId)
             return false
         }
