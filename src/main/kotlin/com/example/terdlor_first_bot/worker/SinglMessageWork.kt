@@ -24,9 +24,10 @@ class SinglMessageWork(tgb_p : TelegramLongPollingBot) : SystemMessageWork(tgb_p
             strBuild.appendLine(Печататель().дайВсеChat())
 
             println(strBuild.toString())
-            LogHelper().saveLog(strBuild.toString(), DatabaseHelper.getUserDao().findById(msg.from)?.userName!!)
 
             SinglResponseHelper(tgb).sendSimpleNotification(msg.chat, strBuild.toString(), msg.messageId)
+
+            LogHelper().saveLog(strBuild.toString(), "Singl-" + DatabaseHelper.getUserDao().findById(msg.from)?.userName!!)
 
             msg.rs = strBuild.toString()
             msg.rs_chat_id = msg.chat.toString()
