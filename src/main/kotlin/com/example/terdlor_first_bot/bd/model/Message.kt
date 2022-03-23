@@ -60,9 +60,9 @@ class Message {
         if (forwardDate != null) strBuild.append(", forwardDate=$forwardDate")
         if (text != null) strBuild.append(", text=$text")
         if (insert_date != null) strBuild.append(", insert_date=$insert_date")
-        if (rq != null) strBuild.append(", rq=$rq")
-        if (rs != null) strBuild.append(", rs=$rs")
-        if (rs_chat_id != null) strBuild.append(", rs_chat_id=$rs_chat_id")
+        //if (rq != null) strBuild.append(", rq=$rq")
+        //if (rs != null) strBuild.append(", rs=$rs")
+        //if (rs_chat_id != null) strBuild.append(", rs_chat_id=$rs_chat_id")
         strBuild.append("}")
         return strBuild.toString()
     }

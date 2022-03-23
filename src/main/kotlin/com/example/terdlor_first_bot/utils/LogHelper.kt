@@ -17,7 +17,7 @@ class LogHelper {
         val outputFile = File(wallpaperDirectory, "[$filename].txt")
         outputFile.printWriter().use { out ->
             for(str in responseText){
-                out.println(str)
+                out.print(str)
             }
         }
     }
