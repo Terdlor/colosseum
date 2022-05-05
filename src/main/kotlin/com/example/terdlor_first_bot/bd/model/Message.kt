@@ -27,9 +27,9 @@ class Message {
 
     @DatabaseField
     var insert_date: Date? = null
-    @DatabaseField
+    @DatabaseField(columnDefinition = "VARCHAR2(4098)")
     var rq: String? = null
-    @DatabaseField
+    @DatabaseField(columnDefinition = "VARCHAR2(4098)")
     var rs: String? = null
     @DatabaseField
     var rs_chat_id: String? = null
