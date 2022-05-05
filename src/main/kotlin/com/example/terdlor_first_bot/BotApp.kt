@@ -28,6 +28,10 @@ class BotApp : TelegramLongPollingBot() {
 
         val msg = DatabaseHelper.getMessageDao().save(update.message)
 
+        if (update.message == null) {
+            //TODO
+            return
+        }
         if (SystemMessageWork(this).work(update.message)) {
             return
         }

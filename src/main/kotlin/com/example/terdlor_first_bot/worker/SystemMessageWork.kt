@@ -23,8 +23,9 @@ open class SystemMessageWork(tgb_p : TelegramLongPollingBot) {
         rshS = SinglResponseHelper(tgb)
         rshG = GroupResponseHelper(tgb)
         spamMap = mapOf(
-                "/dubasit" to "ПОРА ЗАБИВАТЬ!!!",
+                "dubasit" to "ПОРА ЗАБИВАТЬ!!!",
                 "СПААААМ" to "ПЕСПЕРЕПЕС",
+                "srat_v_trubi" to "В ТРУБЫ...... НАСРААААЛИ",
                 "ПИВА" to "ПИВА")
     }
 
@@ -50,29 +51,32 @@ open class SystemMessageWork(tgb_p : TelegramLongPollingBot) {
     }
 
     fun workSpam(msg : com.example.terdlor_first_bot.bd.model.Message) : Boolean {
-        if (spamMap.get(msg.text) != null) {
-            val sendIds = ArrayList<Long>()
-            for (chat in DatabaseHelper.getChatDao().getActive()) {
-                try {
-                    if (chat.id > 0) {
-                        rshS.sendSimpleNotification(chat.id, spamMap.get(msg.text)!!, msg.messageId)
-                    } else {
-                        rshG.sendSimpleNotification(chat.id, spamMap.get(msg.text)!!, msg.messageId)
+        var isWork = false
+        for (ent in spamMap) {
+            if (msg.text != null && msg.text!!.contains(ent.key, true)) {
+                val sendIds = ArrayList<Long>()
+                for (chat in DatabaseHelper.getChatDao().getActive()) {
+                    try {
+                        if (chat.id > 0) {
+                            rshS.sendSimpleNotification(chat.id, ent.value, msg.messageId)
+                        } else {
+                            rshG.sendSimpleNotification(chat.id, ent.value, msg.messageId)
+                        }
+                        sendIds.add(chat.id)
+                    } catch (e : org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException){
+
                     }
-                    sendIds.add(chat.id)
-                } catch (e : org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException){
-
                 }
-            }
-            msg.rs = spamMap.get(msg.text)
-            msg.rs_chat_id = sendIds.toString()
-            DatabaseHelper.getMessageDao().update(msg)
+                msg.rs = spamMap.get(msg.text)
+                msg.rs_chat_id = sendIds.toString()
+                DatabaseHelper.getMessageDao().update(msg)
 
-            println(msg.text + " отправил " + DatabaseHelper.getUserDao().findById(msg.from)?.userName + ", чат " + msg.chat + " в " + Date())
-            LogHelper().saveLog(msg.text + " отправил " + DatabaseHelper.getUserDao().findById(msg.from)?.userName + ", чат " + msg.chat + " в " + Date(),
-                    DatabaseHelper.getUserDao().findById(msg.from)?.userName!!)
-            return true
+                println(msg.text + " отправил " + DatabaseHelper.getUserDao().findById(msg.from)?.userName + ", чат " + msg.chat + " в " + Date())
+                LogHelper().saveLog(msg.text + " отправил " + DatabaseHelper.getUserDao().findById(msg.from)?.userName + ", чат " + msg.chat + " в " + Date(),
+                        DatabaseHelper.getUserDao().findById(msg.from)?.userName!!)
+                isWork = true
+            }
         }
-        return false
+        return isWork
     }
 }
