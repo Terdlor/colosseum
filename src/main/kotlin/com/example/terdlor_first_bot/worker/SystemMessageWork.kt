@@ -29,7 +29,7 @@ open class SystemMessageWork(tgb_p : TelegramLongPollingBot) {
                 "ПИВА" to "ПИВА")
     }
 
-    open fun work(msg : Message) : Boolean {
+    open fun work(msg : Message, msg_bd : com.example.terdlor_first_bot.bd.model.Message) : Boolean {
         if (msg.newChatMembers.isNotEmpty()) {
             for (newUser in msg.newChatMembers) {
                 val userDao = DatabaseHelper.getUserDao()
@@ -47,6 +47,13 @@ open class SystemMessageWork(tgb_p : TelegramLongPollingBot) {
         if (msg.text == null) {
             return true
         }
+
+        var rshSystem  = if (msg.chat.id > 0) { rshS } else { rshG }
+
+        if (LastSpamInfoWork(tgb, rshSystem).work(msg, msg_bd)) {
+            return true
+        }
+
         return false
     }
 

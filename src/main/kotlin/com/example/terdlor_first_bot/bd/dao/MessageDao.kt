@@ -11,5 +11,7 @@ interface MessageDao : Dao<Message, Long> {
 
     fun saveIfNotExist(messageTG : org.telegram.telegrambots.meta.api.objects.Message?)
 
-    fun save(messageTG: org.telegram.telegrambots.meta.api.objects.Message) : Message
+    fun save(messageTG : org.telegram.telegrambots.meta.api.objects.Message) : Message
+
+    fun getLastSpamCount(keyWord : Set<String>, delay : Int) : Map<String, Int>
 }

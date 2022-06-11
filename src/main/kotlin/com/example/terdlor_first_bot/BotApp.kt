@@ -32,7 +32,7 @@ class BotApp : TelegramLongPollingBot() {
             //TODO
             return
         }
-        if (SystemMessageWork(this).work(update.message)) {
+        if (SystemMessageWork(this).work(update.message, msg)) {
             return
         }
         if (update.message.chat.id > 0) {

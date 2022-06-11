@@ -18,9 +18,7 @@ class SinglMessageWork(tgb_p : TelegramLongPollingBot) : SystemMessageWork(tgb_p
 
             val strBuild = StringBuilder()
             strBuild.appendLine(Печататель().дайMessage(msg))
-            strBuild.appendLine()
             strBuild.appendLine(Печататель().дайВсеUser())
-            strBuild.appendLine()
             strBuild.appendLine(Печататель().дайВсеChat())
 
             println(strBuild.toString())
