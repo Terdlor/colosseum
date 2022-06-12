@@ -54,6 +54,10 @@ open class SystemMessageWork(tgb_p : TelegramLongPollingBot) {
             return true
         }
 
+        if (StateTestWork(tgb).work(msg, msg_bd)) {
+            return true
+        }
+
         return false
     }
 
