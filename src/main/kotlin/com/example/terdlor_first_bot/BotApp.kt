@@ -26,12 +26,12 @@ class BotApp : TelegramLongPollingBot() {
     override fun onUpdateReceived(update: Update) {
         val dateCurrentLocalStart = Date()
 
-        val msg = DatabaseHelper.getMessageDao().save(update.message)
-
         if (update.message == null) {
             //TODO
             return
         }
+        val msg = DatabaseHelper.getMessageDao().save(update.message)
+
         if (SystemMessageWork(this).work(update.message, msg)) {
             return
         }
