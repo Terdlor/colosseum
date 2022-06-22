@@ -1,5 +1,6 @@
 package com.example.terdlor_first_bot.worker
 
+import com.example.terdlor_first_bot.BotApp
 import com.example.terdlor_first_bot.bd.DatabaseHelper
 import com.example.terdlor_first_bot.utils.*
 import org.telegram.telegrambots.bots.TelegramLongPollingBot
@@ -20,9 +21,9 @@ class LastSpamInfoWork(tgb_p : TelegramLongPollingBot, rsh_p : ResponseHelper){
     fun work(msg : Message, msg_bd : com.example.terdlor_first_bot.bd.model.Message) : Boolean {
         try {
             if (msg.entities == null) return false
-
             val entity : MessageEntity? =
-            msg.entities.stream().filter{ en -> en.type.equals("bot_command") && en.text.equals("/last_spam") }.findAny().orElse(null)
+            msg.entities.stream().filter{ en -> en.type.equals("bot_command") &&
+                (en.text.equals("/last_spam") || en.text.equals("/last_spam@" + BotApp.foo)) }.findAny().orElse(null)
             if (entity != null) {
                 val delay = EditValueHelper().strToIntDef(msg.text.substringAfter("/last_spam").trim(), 60)
 

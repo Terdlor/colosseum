@@ -19,12 +19,18 @@ class BotApp : TelegramLongPollingBot() {
     @Value("\${telegram.token}")
     private val token: String = ""
 
+    companion object {
+        var foo: String = "botName"
+    }
+
     override fun getBotUsername(): String = botName
 
     override fun getBotToken(): String = token
 
     override fun onUpdateReceived(update: Update) {
         val dateCurrentLocalStart = Date()
+
+        foo = botName
 
         if (update.message == null) {
             //TODO
