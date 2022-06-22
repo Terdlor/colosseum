@@ -5,6 +5,7 @@ import com.example.terdlor_first_bot.utils.GroupResponseHelper
 import com.example.terdlor_first_bot.utils.LogHelper
 import com.example.terdlor_first_bot.utils.ResponseHelper
 import com.example.terdlor_first_bot.utils.SinglResponseHelper
+import org.apache.commons.lang3.StringUtils
 import org.telegram.telegrambots.bots.TelegramLongPollingBot
 import org.telegram.telegrambots.meta.api.objects.Message
 import java.util.*
@@ -48,7 +49,7 @@ open class SystemMessageWork(tgb_p : TelegramLongPollingBot) {
             return true
         }
 
-        var rshSystem  = if (msg.chat.id > 0) { rshS } else { rshG }
+        val rshSystem  = if (msg.chat.id > 0) { rshS } else { rshG }
 
         if (LastSpamInfoWork(tgb, rshSystem).work(msg, msg_bd)) {
             return true
@@ -78,7 +79,11 @@ open class SystemMessageWork(tgb_p : TelegramLongPollingBot) {
 
                     }
                 }
-                msg.rs = spamMap.get(msg.text)
+                if (StringUtils.isEmpty(msg.rs)) {
+                    msg.rs = ent.value
+                } else {
+                    msg.rs = msg.rs + "-Мультиспамм-" +ent.value
+                }
                 msg.rs_chat_id = sendIds.toString()
                 DatabaseHelper.getMessageDao().update(msg)
 

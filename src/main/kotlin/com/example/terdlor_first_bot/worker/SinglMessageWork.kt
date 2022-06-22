@@ -8,8 +8,6 @@ import org.telegram.telegrambots.bots.TelegramLongPollingBot
 
 class SinglMessageWork(tgb_p : TelegramLongPollingBot) : SystemMessageWork(tgb_p) {
 
-
-
     fun work(msg : com.example.terdlor_first_bot.bd.model.Message) : Boolean {
         try {
             if (workSpam(msg)) {
