@@ -11,6 +11,7 @@ import org.springframework.statemachine.config.builders.StateMachineTransitionCo
 import org.springframework.statemachine.listener.StateMachineListener
 import org.springframework.statemachine.listener.StateMachineListenerAdapter
 import org.springframework.statemachine.state.State
+import com.example.terdlor_first_bot.utils.println
 import java.util.*
 
 
@@ -47,14 +48,14 @@ class StateMachineConfiguration : EnumStateMachineConfigurerAdapter<States, Even
 
     @Bean
     fun initAction(): Action<States, Events>? {
-        return Action { ctx -> System.out.println(ctx.getTarget().getId()) }
+        return Action { ctx -> println(ctx.getTarget().getId()) }
     }
 
     @Bean
     fun listener(): StateMachineListener<States?, Events?>? {
         return object : StateMachineListenerAdapter<States?, Events?>() {
             override fun stateChanged(from: State<States?, Events?>?, to: State<States?, Events?>) {
-                System.out.println("State change to " + to.getId())
+               println("State change to " + to.getId())
             }
         }
     }

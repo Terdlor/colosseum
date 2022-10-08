@@ -28,7 +28,7 @@ class MessageDaoImpl(connectionSource: ConnectionSource?) : BaseDaoImpl<Message,
             if  (findById(messageTG.messageId) == null) {
                 save(messageTG)
             } else {
-                println("------------------------------KAK--------------------------")
+                com.example.terdlor_first_bot.utils.println("------------------------------KAK--------------------------")
             }
     }
 

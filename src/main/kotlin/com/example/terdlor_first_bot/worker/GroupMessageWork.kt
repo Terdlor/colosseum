@@ -4,6 +4,7 @@ import com.example.terdlor_first_bot.bd.DatabaseHelper
 import com.example.terdlor_first_bot.utils.GroupResponseHelper
 import com.example.terdlor_first_bot.utils.LogHelper
 import com.example.terdlor_first_bot.utils.Печататель
+import com.example.terdlor_first_bot.utils.println
 import org.telegram.telegrambots.bots.TelegramLongPollingBot
 
 class GroupMessageWork(tgbParam : TelegramLongPollingBot) : SystemMessageWork(tgbParam) {

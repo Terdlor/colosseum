@@ -8,6 +8,7 @@ import com.example.terdlor_first_bot.bd.dao.impl.DbInfoDaoImpl
 import com.example.terdlor_first_bot.bd.dao.impl.MessageDaoImpl
 import com.example.terdlor_first_bot.bd.dao.impl.UserDaoImpl
 import com.example.terdlor_first_bot.bd.model.*
+import com.example.terdlor_first_bot.utils.println
 import com.j256.ormlite.jdbc.JdbcPooledConnectionSource
 import com.j256.ormlite.support.ConnectionSource
 import com.j256.ormlite.table.TableUtils
@@ -27,7 +28,7 @@ class DatabaseHelper private constructor() {
         @Value("\${spring.datasource.url}")
         private val url: String = "jdbc:h2:file:./data/testdb"
 
-        var connectionSource : JdbcPooledConnectionSource? = null
+        private var connectionSource : JdbcPooledConnectionSource? = null
 
         private fun instance() : ConnectionSource {
             if (connectionSource == null ||  !connectionSource?.isOpen("")!!) {
@@ -57,7 +58,7 @@ class DatabaseHelper private constructor() {
             return MessageDaoImpl(instance())
         }
 
-        fun update1() {
+        private fun update1() {
             TableUtils.createTableIfNotExists(connectionSource, DbInfo::class.java)
             TableUtils.createTableIfNotExists(connectionSource, User::class.java)
             TableUtils.createTableIfNotExists(connectionSource, Chat::class.java)
@@ -67,7 +68,7 @@ class DatabaseHelper private constructor() {
             update2()
         }
 
-        fun update2() {
+        private fun update2() {
             val dao = DbInfoDaoImpl(connectionSource)
             dao.executeRaw("ALTER TABLE `USERS` ADD COLUMN IF NOT EXISTS insert_date TIMESTAMP;")
             dao.executeRaw("ALTER TABLE `CHATS` ADD COLUMN IF NOT EXISTS insert_date TIMESTAMP;")

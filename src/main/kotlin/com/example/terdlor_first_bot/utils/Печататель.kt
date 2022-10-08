@@ -2,6 +2,10 @@ package com.example.terdlor_first_bot.utils
 
 import com.example.terdlor_first_bot.bd.DatabaseHelper
 import com.example.terdlor_first_bot.bd.model.Message
+import java.io.FileDescriptor
+import java.io.FileOutputStream
+import java.io.PrintStream
+import java.nio.charset.StandardCharsets
 
 class Печататель {
 
@@ -42,6 +46,9 @@ class Печататель {
         }
         return strBuild.toString()
     }
+}
 
-
+//JEP 400: UTF-8 по умолчанию, Стандартизация UTF-8 во всех стандартных Java API, за исключением консольного ввода-вывода.
+fun println(p : Any?) {
+    PrintStream(FileOutputStream(FileDescriptor.out), true, StandardCharsets.UTF_8).println(p)
 }
