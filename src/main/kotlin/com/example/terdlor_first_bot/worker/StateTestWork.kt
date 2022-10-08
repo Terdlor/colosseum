@@ -13,7 +13,7 @@ import org.telegram.telegrambots.meta.api.objects.MessageEntity
 
 
 @Component
-class StateTestWork(tgb_p : TelegramLongPollingBot){
+class StateTestWork(tgbParam : TelegramLongPollingBot) {
 
     private var rsh : SinglResponseHelper
 
@@ -21,27 +21,27 @@ class StateTestWork(tgb_p : TelegramLongPollingBot){
     lateinit var stateMachine: StateMachine<States, Events>
 
     init {
-        rsh = SinglResponseHelper(tgb_p)
+        rsh = SinglResponseHelper(tgbParam)
     }
 
-    fun work(msg : Message, msg_bd : com.example.terdlor_first_bot.bd.model.Message) : Boolean {
+    fun work(msg : Message, msgBd : com.example.terdlor_first_bot.bd.model.Message) : Boolean {
         try {
             if (msg.entities == null) return false
 
             var entity : MessageEntity? =
-            msg.entities.stream().filter{ en -> en.type.equals("bot_command") && en.text.equals("/start_st") }.findAny().orElse(null)
+                    msg.entities.stream().filter{ en -> en.type.equals("bot_command") && en.text.equals("/start_st") }.findAny().orElse(null)
             if (entity != null) {
                 stateMachine?.start();
                 return true
             }
             entity =
-                msg.entities.stream().filter{ en -> en.type.equals("bot_command") && en.text.equals("/get_st") }.findAny().orElse(null)
+                    msg.entities.stream().filter{ en -> en.type.equals("bot_command") && en.text.equals("/get_st") }.findAny().orElse(null)
             if (entity != null) {
                 rsh.sendSimpleNotification(msg.chat.id, stateMachine?.getState().toString(), msg.messageId)
                 return true
             }
             entity =
-            msg.entities.stream().filter{ en -> en.type.equals("bot_command") && en.text.equals("/next_st") }.findAny().orElse(null)
+                    msg.entities.stream().filter{ en -> en.type.equals("bot_command") && en.text.equals("/next_st") }.findAny().orElse(null)
             if (entity != null) {
                 stateMachine?.sendEvent(Events.E1);
                 return true

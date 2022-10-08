@@ -19,10 +19,10 @@ class DbInfoDaoImpl(connectionSource: ConnectionSource?) : BaseDaoImpl<DbInfo, L
 
     @Throws(SQLException::class)
     override fun lastVersion() : Long {
-        try {
-            return super.queryRawValue("select max(version) from DB_INFO")
+        return try {
+            super.queryRawValue("select max(version) from DB_INFO")
         } catch (ex : SQLException) {
-            return 0
+            0
         }
     }
 }

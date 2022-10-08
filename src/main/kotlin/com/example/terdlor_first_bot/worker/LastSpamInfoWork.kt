@@ -8,22 +8,22 @@ import org.telegram.telegrambots.meta.api.objects.Message
 import org.telegram.telegrambots.meta.api.objects.MessageEntity
 import java.util.*
 
-class LastSpamInfoWork(tgb_p : TelegramLongPollingBot, rsh_p : ResponseHelper){
+class LastSpamInfoWork(tgbParam : TelegramLongPollingBot, rshParam : ResponseHelper) {
 
     private var tgb : TelegramLongPollingBot
     private var rsh : ResponseHelper
 
     init {
-        tgb = tgb_p
-        rsh = rsh_p
+        tgb = tgbParam
+        rsh = rshParam
     }
 
-    fun work(msg : Message, msg_bd : com.example.terdlor_first_bot.bd.model.Message) : Boolean {
+    fun work(msg : Message, msgBd : com.example.terdlor_first_bot.bd.model.Message) : Boolean {
         try {
             if (msg.entities == null) return false
             val entity : MessageEntity? =
-            msg.entities.stream().filter{ en -> en.type.equals("bot_command") &&
-                (en.text.equals("/last_spam") || en.text.equals("/last_spam@" + BotApp.foo)) }.findAny().orElse(null)
+                    msg.entities.stream().filter{ en -> en.type.equals("bot_command") &&
+                            (en.text.equals("/last_spam") || en.text.equals("/last_spam@" + BotApp.foo)) }.findAny().orElse(null)
             if (entity != null) {
                 val delay = EditValueHelper().strToIntDef(msg.text.substringAfter("/last_spam").trim(), 60)
 
@@ -31,7 +31,7 @@ class LastSpamInfoWork(tgb_p : TelegramLongPollingBot, rsh_p : ResponseHelper){
                 strBuild.appendLine("СПАММ за последние $delay мин.")
 
                 val lastSpamMap : Map<String, Int> =
-                    DatabaseHelper.getMessageDao().getLastSpamCount(SystemMessageWork(tgb).spamMap.keys, delay)
+                        DatabaseHelper.getMessageDao().getLastSpamCount(SystemMessageWork(tgb).spamMap.keys, delay)
                 if (lastSpamMap.isEmpty()) {
                     strBuild.append("не обнаружено")
                 } else {
@@ -44,9 +44,9 @@ class LastSpamInfoWork(tgb_p : TelegramLongPollingBot, rsh_p : ResponseHelper){
                 println(strBuild.toString())
 
                 rsh.sendSimpleNotification(msg.chat.id, strBuild.toString(), msg.messageId)
-                msg_bd.rs = strBuild.toString()
-                msg_bd.rs_chat_id = msg.chat.id.toString()
-                DatabaseHelper.getMessageDao().update(msg_bd)
+                msgBd.rs = strBuild.toString()
+                msgBd.rs_chat_id = msg.chat.id.toString()
+                DatabaseHelper.getMessageDao().update(msgBd)
                 return true
             }
             return false

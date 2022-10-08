@@ -16,7 +16,7 @@ class LogHelper {
         wallpaperDirectory.mkdirs()
         val outputFile = File(wallpaperDirectory, "[$filename].txt")
         outputFile.printWriter().use { out ->
-            for(str in responseText){
+            for(str in responseText) {
                 out.print(str)
             }
         }

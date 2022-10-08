@@ -15,7 +15,7 @@ class Печататель {
         val strBuild = StringBuilder()
         strBuild.appendLine("ОШИБКА")
         strBuild.appendLine(ex.toString())
-        for(exst in ex.stackTrace){
+        for(exst in ex.stackTrace) {
             strBuild.appendLine( exst.className+"."+exst.methodName+":"+exst.lineNumber)
         }
         return strBuild.toString()

@@ -12,10 +12,10 @@ class ChatDaoImpl(connectionSource: ConnectionSource?) : BaseDaoImpl<Chat, Long>
     @Throws(SQLException::class)
     override fun findById(id: Long): Chat?{
         val res = super.queryForEq("id", id)
-        if (res.isEmpty()){
-            return null
+        return if (res.isEmpty()) {
+            null
         } else {
-            return res[0]
+            res[0]
         }
     }
 

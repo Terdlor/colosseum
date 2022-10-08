@@ -1,7 +1,6 @@
 package com.example.terdlor_first_bot.bd
 
 import com.example.terdlor_first_bot.bd.dao.ChatDao
-import com.example.terdlor_first_bot.bd.dao.DbInfoDao
 import com.example.terdlor_first_bot.bd.dao.MessageDao
 import com.example.terdlor_first_bot.bd.dao.UserDao
 import com.example.terdlor_first_bot.bd.dao.impl.ChatDaoImpl
@@ -9,14 +8,13 @@ import com.example.terdlor_first_bot.bd.dao.impl.DbInfoDaoImpl
 import com.example.terdlor_first_bot.bd.dao.impl.MessageDaoImpl
 import com.example.terdlor_first_bot.bd.dao.impl.UserDaoImpl
 import com.example.terdlor_first_bot.bd.model.*
-import com.j256.ormlite.dao.Dao
 import com.j256.ormlite.jdbc.JdbcPooledConnectionSource
 import com.j256.ormlite.support.ConnectionSource
 import com.j256.ormlite.table.TableUtils
 import org.springframework.beans.factory.annotation.Value
 
 
-class DatabaseHelper private constructor(){
+class DatabaseHelper private constructor() {
 
     companion object {
 

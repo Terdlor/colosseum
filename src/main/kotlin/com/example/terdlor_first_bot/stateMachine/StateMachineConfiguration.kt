@@ -1,6 +1,5 @@
 package com.example.terdlor_first_bot.stateMachine
 
-import com.example.terdlor_first_bot.worker.StateTestWork
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.statemachine.action.Action
@@ -22,29 +21,28 @@ class StateMachineConfiguration : EnumStateMachineConfigurerAdapter<States, Even
     @Throws(Exception::class)
     override fun configure(config: StateMachineConfigurationConfigurer<States?, Events?>) {
         config
-            .withConfiguration()
-            .autoStartup(true)
-            .listener(listener())
+                .withConfiguration()
+                .autoStartup(true)
+                .listener(listener())
     }
 
     override fun configure(states: StateMachineStateConfigurer<States, Events>) {
         states
-            .withStates()
-            .initial(States.SI)
-            .end(States.S2)
-            .states(EnumSet.allOf(States::class.java))
+                .withStates()
+                .initial(States.SI)
+                .end(States.S2)
+                .states(EnumSet.allOf(States::class.java))
     }
 
     @Throws(Exception::class)
-    override fun configure(
-        transitions: StateMachineTransitionConfigurer<States, Events>
+    override fun configure(transitions: StateMachineTransitionConfigurer<States, Events>
     ) {
         transitions
-            .withExternal()
-            .source(States.SI).target(States.S1).event(Events.E1).action(initAction())
-            .and()
-            .withExternal()
-            .source(States.S1).target(States.S2).event(Events.E2)
+                .withExternal()
+                .source(States.SI).target(States.S1).event(Events.E1).action(initAction())
+                .and()
+                .withExternal()
+                .source(States.S1).target(States.S2).event(Events.E2)
     }
 
     @Bean

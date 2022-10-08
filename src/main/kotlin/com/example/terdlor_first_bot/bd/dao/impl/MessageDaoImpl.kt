@@ -16,10 +16,10 @@ class MessageDaoImpl(connectionSource: ConnectionSource?) : BaseDaoImpl<Message,
     @Throws(SQLException::class)
     override fun findById(id: Int): Message?{
         val res = super.queryForEq("messageId", id)
-        if (res.isEmpty()){
-            return null
+        return if (res.isEmpty()) {
+            null
         } else {
-            return res[0]
+            res[0]
         }
     }
 
@@ -69,19 +69,19 @@ class MessageDaoImpl(connectionSource: ConnectionSource?) : BaseDaoImpl<Message,
         strBuild.append("(")
         val iter = keyWord.iterator()
         if (iter.hasNext()) {
-            strBuild.append("TEXT LIKE '%${iter.next()}%'")
+            strBuild.append("UPPER(TEXT) LIKE UPPER('%${iter.next()}%')")
         }
         while (iter.hasNext()) {
-            strBuild.append("or TEXT LIKE '%${iter.next()}%'")
+            strBuild.append("or UPPER(TEXT) LIKE UPPER('%${iter.next()}%')")
         }
         strBuild.append(")")
 
         val results = HashMap<String, Int>()
         val resultArray : GenericRawResults<Array<String>> =
-            super.queryRaw("select \"FROM\", count(*) from MESSAGE where " +
-                strBuild.toString() +
-                " and INSERT_DATE > CURRENT_TIMESTAMP() - INTERVAL $delay MINUTE " +
-                " group by \"FROM\"")
+                super.queryRaw("select \"FROM\", count(*) from MESSAGE where " +
+                        strBuild.toString() +
+                        " and INSERT_DATE > CURRENT_TIMESTAMP() - INTERVAL $delay MINUTE " +
+                        " group by \"FROM\"")
         for (result in resultArray) {
             val userDao = DatabaseHelper.getUserDao()
             results["@" + userDao.findById(result[0].toLong())?.userName] = result[1].toInt()

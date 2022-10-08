@@ -11,7 +11,7 @@ import org.telegram.telegrambots.meta.api.objects.Message
 import java.util.*
 import kotlin.collections.ArrayList
 
-open class SystemMessageWork(tgb_p : TelegramLongPollingBot) {
+open class SystemMessageWork(tgbParam : TelegramLongPollingBot) {
 
     var tgb : TelegramLongPollingBot
     var rshS : ResponseHelper
@@ -20,7 +20,7 @@ open class SystemMessageWork(tgb_p : TelegramLongPollingBot) {
 
 
     init {
-        tgb = tgb_p
+        tgb = tgbParam
         rshS = SinglResponseHelper(tgb)
         rshG = GroupResponseHelper(tgb)
         spamMap = mapOf(
@@ -30,7 +30,7 @@ open class SystemMessageWork(tgb_p : TelegramLongPollingBot) {
                 "ПИВА" to "ПИВА")
     }
 
-    open fun work(msg : Message, msg_bd : com.example.terdlor_first_bot.bd.model.Message) : Boolean {
+    open fun work(msg : Message, msgBD : com.example.terdlor_first_bot.bd.model.Message) : Boolean {
         if (msg.newChatMembers.isNotEmpty()) {
             for (newUser in msg.newChatMembers) {
                 val userDao = DatabaseHelper.getUserDao()
@@ -51,11 +51,11 @@ open class SystemMessageWork(tgb_p : TelegramLongPollingBot) {
 
         val rshSystem  = if (msg.chat.id > 0) { rshS } else { rshG }
 
-        if (LastSpamInfoWork(tgb, rshSystem).work(msg, msg_bd)) {
+        if (LastSpamInfoWork(tgb, rshSystem).work(msg, msgBD)) {
             return true
         }
 
-        if (StateTestWork(tgb).work(msg, msg_bd)) {
+        if (StateTestWork(tgb).work(msg, msgBD)) {
             return true
         }
 
@@ -75,9 +75,7 @@ open class SystemMessageWork(tgb_p : TelegramLongPollingBot) {
                             rshG.sendSimpleNotification(chat.id, ent.value, msg.messageId)
                         }
                         sendIds.add(chat.id)
-                    } catch (e : org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException){
-
-                    }
+                    } catch (e : org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException) { }
                 }
                 if (StringUtils.isEmpty(msg.rs)) {
                     msg.rs = ent.value

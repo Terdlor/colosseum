@@ -6,7 +6,7 @@ import com.example.terdlor_first_bot.utils.SinglResponseHelper
 import com.example.terdlor_first_bot.utils.Печататель
 import org.telegram.telegrambots.bots.TelegramLongPollingBot
 
-class SinglMessageWork(tgb_p : TelegramLongPollingBot) : SystemMessageWork(tgb_p) {
+class SinglMessageWork(tgbParam : TelegramLongPollingBot) : SystemMessageWork(tgbParam) {
 
     fun work(msg : com.example.terdlor_first_bot.bd.model.Message) : Boolean {
         try {
@@ -30,7 +30,7 @@ class SinglMessageWork(tgb_p : TelegramLongPollingBot) : SystemMessageWork(tgb_p
             DatabaseHelper.getMessageDao().update(msg)
 
             return true
-        } catch (ex : Exception){
+        } catch (ex : Exception) {
             val str =Печататель().дайException(ex)
             println(str)
             LogHelper().saveLog(str, "ОШИБКА-Singl-" + DatabaseHelper.getUserDao().findById(msg.from)?.userName!!)

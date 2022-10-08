@@ -5,12 +5,12 @@ import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardMar
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardRemove
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.KeyboardRow
 
-abstract class ResponseHelper(tgb_p : TelegramLongPollingBot) {
+abstract class ResponseHelper(tgbParam : TelegramLongPollingBot) {
 
     var tgb : TelegramLongPollingBot
 
     init {
-         tgb = tgb_p
+        tgb = tgbParam
     }
 
     abstract fun sendSimpleNotification(chatId: Long, responseText: String, num:  Int)
