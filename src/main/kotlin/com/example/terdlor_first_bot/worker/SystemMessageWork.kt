@@ -15,8 +15,8 @@ import kotlin.collections.ArrayList
 open class SystemMessageWork(tgbParam : TelegramLongPollingBot) {
 
     var tgb : TelegramLongPollingBot
-    var rshS : ResponseHelper
-    var rshG : ResponseHelper
+    private var rshS : ResponseHelper
+    private var rshG : ResponseHelper
     var spamMap : Map<String, String>
 
 

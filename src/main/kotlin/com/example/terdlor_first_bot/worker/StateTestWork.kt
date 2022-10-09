@@ -4,7 +4,6 @@ import com.example.terdlor_first_bot.bd.DatabaseHelper
 import com.example.terdlor_first_bot.stateMachine.Events
 import com.example.terdlor_first_bot.stateMachine.States
 import com.example.terdlor_first_bot.utils.*
-import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.statemachine.StateMachine
 import org.springframework.stereotype.Component
 import org.telegram.telegrambots.bots.TelegramLongPollingBot
@@ -17,7 +16,6 @@ class StateTestWork(tgbParam : TelegramLongPollingBot) {
 
     private var rsh : SinglResponseHelper
 
-    @Autowired
     lateinit var stateMachine: StateMachine<States, Events>
 
     init {
@@ -43,7 +41,7 @@ class StateTestWork(tgbParam : TelegramLongPollingBot) {
             entity =
                     msg.entities.stream().filter{ en -> en.type.equals("bot_command") && en.text.equals("/next_st") }.findAny().orElse(null)
             if (entity != null) {
-                stateMachine?.sendEvent(Events.E1);
+                stateMachine?.sendEvent(Events.EVENT1);
                 return true
             }
             return false
