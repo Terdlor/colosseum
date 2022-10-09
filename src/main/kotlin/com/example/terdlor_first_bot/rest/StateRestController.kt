@@ -1,4 +1,4 @@
-package com.example.terdlor_first_bot
+package com.example.terdlor_first_bot.rest
 
 import com.example.terdlor_first_bot.spring.Date
 import com.example.terdlor_first_bot.stateMachine.Events
