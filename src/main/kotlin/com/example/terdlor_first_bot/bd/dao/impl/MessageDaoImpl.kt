@@ -72,7 +72,7 @@ class MessageDaoImpl(connectionSource: ConnectionSource?) : BaseDaoImpl<Message,
             strBuild.append("UPPER(TEXT) LIKE UPPER('%${iter.next()}%')")
         }
         while (iter.hasNext()) {
-            strBuild.append("or UPPER(TEXT) LIKE UPPER('%${iter.next()}%')")
+            strBuild.append(" or UPPER(TEXT) LIKE UPPER('%${iter.next()}%')")
         }
         strBuild.append(")")
 
