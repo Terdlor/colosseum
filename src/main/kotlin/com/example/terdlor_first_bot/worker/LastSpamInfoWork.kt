@@ -3,20 +3,16 @@ package com.example.terdlor_first_bot.worker
 import com.example.terdlor_first_bot.BotApp
 import com.example.terdlor_first_bot.bd.DatabaseHelper
 import com.example.terdlor_first_bot.utils.*
+import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.beans.factory.annotation.Qualifier
+import org.springframework.stereotype.Component
 import org.telegram.telegrambots.bots.TelegramLongPollingBot
 import org.telegram.telegrambots.meta.api.objects.Message
 import org.telegram.telegrambots.meta.api.objects.MessageEntity
 import java.util.*
 
-class LastSpamInfoWork(tgbParam : TelegramLongPollingBot, rshParam : ResponseHelper) {
+class LastSpamInfoWork  constructor(val tgbParam: TelegramLongPollingBot, private val rshParam : ResponseHelper) {
 
-    private var tgb : TelegramLongPollingBot
-    private var rsh : ResponseHelper
-
-    init {
-        tgb = tgbParam
-        rsh = rshParam
-    }
 
     fun work(msg : Message, msgBd : com.example.terdlor_first_bot.bd.model.Message) : Boolean {
         try {
@@ -31,7 +27,7 @@ class LastSpamInfoWork(tgbParam : TelegramLongPollingBot, rshParam : ResponseHel
                 strBuild.appendLine("СПАММ за последние $delay мин.")
 
                 val lastSpamMap : Map<String, Int> =
-                        DatabaseHelper.getMessageDao().getLastSpamCount(SystemMessageWork(tgb).spamMap.keys, delay)
+                        DatabaseHelper.getMessageDao().getLastSpamCount(SystemMessageWork.spamMap.keys, delay)
                 if (lastSpamMap.isEmpty()) {
                     strBuild.append("не обнаружено")
                 } else {
@@ -43,7 +39,7 @@ class LastSpamInfoWork(tgbParam : TelegramLongPollingBot, rshParam : ResponseHel
                 println(msg.text + " отправил " + DatabaseHelper.getUserDao().findById(msg.from.id)?.userName + ", чат " + msg.chat + " в " + Date())
                 println(strBuild.toString())
 
-                rsh.sendSimpleNotification(msg.chat.id, strBuild.toString(), msg.messageId)
+                rshParam.sendSimpleNotification(msg.chat.id, strBuild.toString(), msg.messageId)
                 msgBd.rs = strBuild.toString()
                 msgBd.rs_chat_id = msg.chat.id.toString()
                 DatabaseHelper.getMessageDao().update(msgBd)
@@ -54,7 +50,7 @@ class LastSpamInfoWork(tgbParam : TelegramLongPollingBot, rshParam : ResponseHel
             val str =Печататель().дайException(ex)
             println(str)
             LogHelper().saveLog(str, "ОШИБКА-" + DatabaseHelper.getUserDao().findById(msg.from.id)?.userName!!)
-            rsh.sendSimpleNotification(msg.chat.id, str, msg.messageId)
+            rshParam.sendSimpleNotification(msg.chat.id, str, msg.messageId)
             return false
         }
     }

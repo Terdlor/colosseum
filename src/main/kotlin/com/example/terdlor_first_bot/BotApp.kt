@@ -1,17 +1,25 @@
 package com.example.terdlor_first_bot
 
 import com.example.terdlor_first_bot.bd.DatabaseHelper
+import com.example.terdlor_first_bot.utils.LogHelper
+import com.example.terdlor_first_bot.utils.SinglResponseHelper
+import com.example.terdlor_first_bot.utils.Печататель
 import com.example.terdlor_first_bot.worker.GroupMessageWork
+import com.example.terdlor_first_bot.worker.LastSpamInfoWork
 import com.example.terdlor_first_bot.worker.SinglMessageWork
 import com.example.terdlor_first_bot.worker.SystemMessageWork
+import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Value
+import org.springframework.context.ApplicationContext
 import org.springframework.stereotype.Service
 import org.telegram.telegrambots.bots.TelegramLongPollingBot
 import org.telegram.telegrambots.meta.api.objects.Update
 import java.util.*
 
 @Service
-class BotApp : TelegramLongPollingBot() {
+class BotApp @Autowired constructor (
+        private val context : ApplicationContext
+        ) : TelegramLongPollingBot() {
 
     @Value("\${telegram.botName}")
     private val botName: String = ""
@@ -36,36 +44,39 @@ class BotApp : TelegramLongPollingBot() {
             //TODO
             return
         }
-        val msg = DatabaseHelper.getMessageDao().save(update.message)
 
-        if (SystemMessageWork(this).work(update.message, msg)) {
-            return
-        }
-        if (update.message.chat.id > 0) {
-            SinglMessageWork(this).work(msg)
-            return
-        }
-        if (update.message.chat.id < 0) {
-            GroupMessageWork(this).work(msg)
+        try {
+            val msg = DatabaseHelper.getMessageDao().save(update.message)
+
+            if (context.getBean("getSystemMessageWork", SystemMessageWork::class.java).work(update.message, msg)) {
+                return
+            }
+
+            if (update.message.chat.id > 0) {
+                if (context.getBean("getSinglLastSpamInfoWorkBean", LastSpamInfoWork::class.java).work(update.message, msg))
+                    return
+            }
+            if (update.message.chat.id < 0) {
+                if (context.getBean("getGroupLastSpamInfoWorkBean", LastSpamInfoWork::class.java).work(update.message, msg))
+                    return
+            }
+
+            if (update.message.chat.id > 0) {
+                if (context.getBean("singlMessageWorkBean", SinglMessageWork::class.java).work(msg))
+                    return
+            }
+            if (update.message.chat.id < 0) {
+                if (context.getBean("groupMessageWorkBean", GroupMessageWork::class.java).work(msg))
+                    return
+            }
+        } catch (ex : Exception) {
+            val str = Печататель().дайException(ex)
+            com.example.terdlor_first_bot.utils.println(str)
+            LogHelper().saveLog(str, "ОШИБКА-" + DatabaseHelper.getUserDao().findById(update.message.from.id)?.userName!!)
+            SinglResponseHelper(this).sendSimpleNotification(update.message.chat.id, str, update.message.messageId)
             return
         }
 
         val dateCurrentLocalEnd = Date()
-
-//        if (update.hasMessage()) {
-//            val message = update.message
-//            val chatId = message.chatId
-//            val responseText = if (message.hasText()) {
-//                val messageText = message.text
-//                when {
-//                    messageText == "/start" -> "Добро пожаловать!"
-//                    messageText.startsWith("Кнопка ") -> "Вы нажали кнопку" // обработка нажатия кнопки
-//                    else -> "Вы написали: *$messageText*"
-//                }
-//            } else {
-//                "Я понимаю только текст"
-//            }
-//            sendNotification2(chatId, responseText)
-//        }
     }
 }

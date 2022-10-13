@@ -3,33 +3,34 @@ package com.example.terdlor_first_bot.worker
 import com.example.terdlor_first_bot.bd.DatabaseHelper
 import com.example.terdlor_first_bot.utils.GroupResponseHelper
 import com.example.terdlor_first_bot.utils.LogHelper
-import com.example.terdlor_first_bot.utils.ResponseHelper
 import com.example.terdlor_first_bot.utils.SinglResponseHelper
 import com.example.terdlor_first_bot.utils.println
 import org.apache.commons.lang3.StringUtils
+import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.stereotype.Component
 import org.telegram.telegrambots.bots.TelegramLongPollingBot
 import org.telegram.telegrambots.meta.api.objects.Message
 import java.util.*
 import kotlin.collections.ArrayList
 
-open class SystemMessageWork(tgbParam : TelegramLongPollingBot) {
+@Component("getSystemMessageWork")
+open class SystemMessageWork {
 
-    var tgb : TelegramLongPollingBot
-    private var rshS : ResponseHelper
-    private var rshG : ResponseHelper
-    var spamMap : Map<String, String>
-
-
-    init {
-        tgb = tgbParam
-        rshS = SinglResponseHelper(tgb)
-        rshG = GroupResponseHelper(tgb)
-        spamMap = mapOf(
+    companion object {
+        var spamMap = mapOf(
                 "dubasit" to "ПОРА ЗАБИВАТЬ!!!",
                 "СПААААМ" to "ПЕСПЕРЕПЕС",
                 "srat_v_trubi" to "В ТРУБЫ...... НАСРААААЛИ",
                 "ПИВА" to "ПИВА")
     }
+
+    @Autowired
+    private lateinit var tgbParam: TelegramLongPollingBot
+    @Autowired
+    private lateinit var rshS: SinglResponseHelper
+    @Autowired
+    private lateinit var rshG: GroupResponseHelper
+
 
     open fun work(msg : Message, msgBD : com.example.terdlor_first_bot.bd.model.Message) : Boolean {
         if (msg.newChatMembers.isNotEmpty()) {
@@ -47,16 +48,6 @@ open class SystemMessageWork(tgbParam : TelegramLongPollingBot) {
 
         //пин+
         if (msg.text == null) {
-            return true
-        }
-
-        val rshSystem  = if (msg.chat.id > 0) { rshS } else { rshG }
-
-        if (LastSpamInfoWork(tgb, rshSystem).work(msg, msgBD)) {
-            return true
-        }
-
-        if (StateTestWork(tgb).work(msg, msgBD)) {
             return true
         }
 

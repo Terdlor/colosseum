@@ -21,12 +21,12 @@ class Config {
     }
 
     @Bean
-    fun getSinglResponseHelper (@Autowired tgbParam : TelegramLongPollingBot) : SinglResponseHelper {
+    fun getSinglResponseHelperBean(@Autowired tgbParam : TelegramLongPollingBot) : SinglResponseHelper {
         return SinglResponseHelper(tgbParam)
     }
 
     @Bean
-    fun getGroupResponseHelper (@Autowired tgbParam : TelegramLongPollingBot) : GroupResponseHelper {
+    fun getGroupResponseHelperBean (@Autowired tgbParam : TelegramLongPollingBot) : GroupResponseHelper {
         return GroupResponseHelper(tgbParam)
     }
 }

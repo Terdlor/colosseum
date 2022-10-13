@@ -5,9 +5,15 @@ import com.example.terdlor_first_bot.utils.GroupResponseHelper
 import com.example.terdlor_first_bot.utils.LogHelper
 import com.example.terdlor_first_bot.utils.Печататель
 import com.example.terdlor_first_bot.utils.println
+import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.stereotype.Component
 import org.telegram.telegrambots.bots.TelegramLongPollingBot
 
-class GroupMessageWork(tgbParam : TelegramLongPollingBot) : SystemMessageWork(tgbParam) {
+@Component("groupMessageWorkBean")
+class GroupMessageWork : SystemMessageWork() {
+
+    @Autowired
+    private lateinit var tgbParam: TelegramLongPollingBot
 
     fun work(msg : com.example.terdlor_first_bot.bd.model.Message) : Boolean {
         try {
@@ -20,7 +26,7 @@ class GroupMessageWork(tgbParam : TelegramLongPollingBot) : SystemMessageWork(tg
             val str =Печататель().дайException(ex)
             println(str)
             LogHelper().saveLog(str, "ОШИБКА-Group-" + DatabaseHelper.getUserDao().findById(msg.from)?.userName!!)
-            GroupResponseHelper(tgb).sendSimpleNotification(msg.chat, str, msg.messageId)
+            GroupResponseHelper(tgbParam).sendSimpleNotification(msg.chat, str, msg.messageId)
             return false
         }
     }

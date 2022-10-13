@@ -5,9 +5,15 @@ import com.example.terdlor_first_bot.utils.LogHelper
 import com.example.terdlor_first_bot.utils.SinglResponseHelper
 import com.example.terdlor_first_bot.utils.Печататель
 import com.example.terdlor_first_bot.utils.println
+import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.stereotype.Component
 import org.telegram.telegrambots.bots.TelegramLongPollingBot
 
-class SinglMessageWork(tgbParam : TelegramLongPollingBot) : SystemMessageWork(tgbParam) {
+@Component("singlMessageWorkBean")
+class SinglMessageWork : SystemMessageWork() {
+
+    @Autowired
+    private lateinit var tgbParam: TelegramLongPollingBot
 
     fun work(msg : com.example.terdlor_first_bot.bd.model.Message) : Boolean {
         try {
@@ -22,7 +28,7 @@ class SinglMessageWork(tgbParam : TelegramLongPollingBot) : SystemMessageWork(tg
 
             println(strBuild.toString())
 
-            SinglResponseHelper(tgb).sendSimpleNotification(msg.chat, strBuild.toString(), msg.messageId)
+            SinglResponseHelper(tgbParam).sendSimpleNotification(msg.chat, strBuild.toString(), msg.messageId)
 
             LogHelper().saveLog(strBuild.toString(), "Singl-" + DatabaseHelper.getUserDao().findById(msg.from)?.userName!!)
 
@@ -35,7 +41,7 @@ class SinglMessageWork(tgbParam : TelegramLongPollingBot) : SystemMessageWork(tg
             val str =Печататель().дайException(ex)
             println(str)
             LogHelper().saveLog(str, "ОШИБКА-Singl-" + DatabaseHelper.getUserDao().findById(msg.from)?.userName!!)
-            SinglResponseHelper(tgb).sendSimpleNotification(msg.chat, str, msg.messageId)
+            SinglResponseHelper(tgbParam).sendSimpleNotification(msg.chat, str, msg.messageId)
             return false
         }
     }
