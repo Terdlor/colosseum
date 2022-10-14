@@ -14,7 +14,7 @@ import java.util.*
 import kotlin.collections.ArrayList
 
 @Component("getSystemMessageWork")
-open class SystemMessageWork {
+class SystemMessageWork {
 
     companion object {
         var spamMap = mapOf(
@@ -25,14 +25,12 @@ open class SystemMessageWork {
     }
 
     @Autowired
-    private lateinit var tgbParam: TelegramLongPollingBot
-    @Autowired
     private lateinit var rshS: SinglResponseHelper
     @Autowired
     private lateinit var rshG: GroupResponseHelper
 
 
-    open fun work(msg : Message, msgBD : com.example.terdlor_first_bot.bd.model.Message) : Boolean {
+    fun work(msg : Message, msgBD : com.example.terdlor_first_bot.bd.model.Message) : Boolean {
         if (msg.newChatMembers.isNotEmpty()) {
             for (newUser in msg.newChatMembers) {
                 val userDao = DatabaseHelper.getUserDao()

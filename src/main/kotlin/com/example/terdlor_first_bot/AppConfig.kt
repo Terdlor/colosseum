@@ -2,10 +2,7 @@ package com.example.terdlor_first_bot
 
 import com.example.terdlor_first_bot.utils.GroupResponseHelper
 import com.example.terdlor_first_bot.utils.SinglResponseHelper
-import com.example.terdlor_first_bot.worker.GroupMessageWork
 import com.example.terdlor_first_bot.worker.LastSpamInfoWork
-import com.example.terdlor_first_bot.worker.SinglMessageWork
-import com.example.terdlor_first_bot.worker.SystemMessageWork
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.web.embedded.tomcat.TomcatServletWebServerFactory
 import org.springframework.boot.web.servlet.server.ServletWebServerFactory
@@ -22,18 +19,26 @@ class AppConfig {
     }
 
     @Bean
+    fun getSinglResponseHelperBean(@Autowired tgbParam : TelegramLongPollingBot) : SinglResponseHelper {
+        return SinglResponseHelper(tgbParam)
+    }
+
+    @Bean
+    fun getGroupResponseHelperBean (@Autowired tgbParam : TelegramLongPollingBot) : GroupResponseHelper {
+        return GroupResponseHelper(tgbParam)
+    }
+
+    @Bean
     fun getSinglLastSpamInfoWorkBean (
-            @Autowired tgbParam : TelegramLongPollingBot,
             @Autowired srh : SinglResponseHelper
     ) : LastSpamInfoWork {
-        return LastSpamInfoWork(tgbParam, srh)
+        return LastSpamInfoWork(srh)
     }
 
     @Bean
     fun getGroupLastSpamInfoWorkBean (
-            @Autowired tgbParam : TelegramLongPollingBot,
             @Autowired grh : GroupResponseHelper
     ) : LastSpamInfoWork {
-        return LastSpamInfoWork(tgbParam, grh)
+        return LastSpamInfoWork(grh)
     }
 }

@@ -1,6 +1,5 @@
 package com.example.terdlor_first_bot.rest
 
-import com.example.terdlor_first_bot.spring.Date
 import com.example.terdlor_first_bot.stateMachine.Events
 import com.example.terdlor_first_bot.stateMachine.States
 import org.springframework.beans.factory.annotation.Autowired
@@ -34,8 +33,6 @@ class StateRestController @Autowired constructor(
     fun work(id : Int) : String {
         val stateMachine = getStateMachineFromId(id)
         val state = stateMachine.state.id
-
-        context.getBean(Date::class.java).writer.write(id)
 
         var count =
                 if (stateMachine.extendedState.variables.get("COUNT") == null) {

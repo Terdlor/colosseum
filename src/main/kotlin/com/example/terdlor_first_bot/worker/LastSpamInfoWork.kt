@@ -3,15 +3,11 @@ package com.example.terdlor_first_bot.worker
 import com.example.terdlor_first_bot.BotApp
 import com.example.terdlor_first_bot.bd.DatabaseHelper
 import com.example.terdlor_first_bot.utils.*
-import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.beans.factory.annotation.Qualifier
-import org.springframework.stereotype.Component
-import org.telegram.telegrambots.bots.TelegramLongPollingBot
 import org.telegram.telegrambots.meta.api.objects.Message
 import org.telegram.telegrambots.meta.api.objects.MessageEntity
 import java.util.*
 
-class LastSpamInfoWork  constructor(val tgbParam: TelegramLongPollingBot, private val rshParam : ResponseHelper) {
+class LastSpamInfoWork  constructor(private val rshParam : ResponseHelper) {
 
 
     fun work(msg : Message, msgBd : com.example.terdlor_first_bot.bd.model.Message) : Boolean {
