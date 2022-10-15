@@ -7,20 +7,17 @@ import com.example.terdlor_first_bot.utils.Печататель
 import com.example.terdlor_first_bot.utils.println
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
-import org.telegram.telegrambots.bots.TelegramLongPollingBot
 
 @Component("singlMessageWorkBean")
-class SinglMessageWork : SystemMessageWork() {
+class SinglMessageWork {
 
     @Autowired
-    private lateinit var tgbParam: TelegramLongPollingBot
+    private lateinit var rshS: SinglResponseHelper
+    @Autowired
+    private lateinit var log : LogHelper
 
     fun work(msg : com.example.terdlor_first_bot.bd.model.Message) : Boolean {
         try {
-            if (workSpam(msg)) {
-                return true
-            }
-
             val strBuild = StringBuilder()
             strBuild.appendLine(Печататель().дайMessage(msg))
             strBuild.appendLine(Печататель().дайВсеUser())
@@ -28,9 +25,9 @@ class SinglMessageWork : SystemMessageWork() {
 
             println(strBuild.toString())
 
-            SinglResponseHelper(tgbParam).sendSimpleNotification(msg.chat, strBuild.toString(), msg.messageId)
+            rshS.sendSimpleNotification(msg.chat, strBuild.toString(), msg.messageId)
 
-            LogHelper().saveLog(strBuild.toString(), "Singl-" + DatabaseHelper.getUserDao().findById(msg.from)?.userName!!)
+            log.saveLog(strBuild.toString(), "Singl-" + DatabaseHelper.getUserDao().findById(msg.from)?.userName!!)
 
             msg.rs = strBuild.toString()
             msg.rs_chat_id = msg.chat.toString()
@@ -40,8 +37,8 @@ class SinglMessageWork : SystemMessageWork() {
         } catch (ex : Exception) {
             val str =Печататель().дайException(ex)
             println(str)
-            LogHelper().saveLog(str, "ОШИБКА-Singl-" + DatabaseHelper.getUserDao().findById(msg.from)?.userName!!)
-            SinglResponseHelper(tgbParam).sendSimpleNotification(msg.chat, str, msg.messageId)
+            log.saveLog(str, "ОШИБКА-Singl-" + DatabaseHelper.getUserDao().findById(msg.from)?.userName!!)
+            rshS.sendSimpleNotification(msg.chat, str, msg.messageId)
             return false
         }
     }

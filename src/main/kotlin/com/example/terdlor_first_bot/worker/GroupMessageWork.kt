@@ -7,26 +7,23 @@ import com.example.terdlor_first_bot.utils.Печататель
 import com.example.terdlor_first_bot.utils.println
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
-import org.telegram.telegrambots.bots.TelegramLongPollingBot
 
 @Component("groupMessageWorkBean")
-class GroupMessageWork : SystemMessageWork() {
+class GroupMessageWork {
 
     @Autowired
-    private lateinit var tgbParam: TelegramLongPollingBot
+    private lateinit var rshG: GroupResponseHelper
+    @Autowired
+    private lateinit var log : LogHelper
 
     fun work(msg : com.example.terdlor_first_bot.bd.model.Message) : Boolean {
         try {
-            if (workSpam(msg)) {
-                return true
-            }
-
             return true
         } catch (ex : Exception) {
             val str =Печататель().дайException(ex)
             println(str)
-            LogHelper().saveLog(str, "ОШИБКА-Group-" + DatabaseHelper.getUserDao().findById(msg.from)?.userName!!)
-            GroupResponseHelper(tgbParam).sendSimpleNotification(msg.chat, str, msg.messageId)
+            log.saveLog(str, "ОШИБКА-Group-" + DatabaseHelper.getUserDao().findById(msg.from)?.userName!!)
+            rshG.sendSimpleNotification(msg.chat, str, msg.messageId)
             return false
         }
     }

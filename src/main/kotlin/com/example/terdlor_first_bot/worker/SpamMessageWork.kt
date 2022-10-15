@@ -8,13 +8,11 @@ import com.example.terdlor_first_bot.utils.println
 import org.apache.commons.lang3.StringUtils
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
-import org.telegram.telegrambots.bots.TelegramLongPollingBot
-import org.telegram.telegrambots.meta.api.objects.Message
 import java.util.*
 import kotlin.collections.ArrayList
 
-@Component("getSystemMessageWork")
-class SystemMessageWork {
+@Component("spamMessageWork")
+class SpamMessageWork {
 
     companion object {
         var spamMap = mapOf(
@@ -28,31 +26,10 @@ class SystemMessageWork {
     private lateinit var rshS: SinglResponseHelper
     @Autowired
     private lateinit var rshG: GroupResponseHelper
+    @Autowired
+    private lateinit var log : LogHelper
 
-
-    fun work(msg : Message, msgBD : com.example.terdlor_first_bot.bd.model.Message) : Boolean {
-        if (msg.newChatMembers.isNotEmpty()) {
-            for (newUser in msg.newChatMembers) {
-                val userDao = DatabaseHelper.getUserDao()
-                userDao.saveIfNotExist(newUser)
-                rshG.sendSimpleNotification(msg.chat.id, "@" + newUser.userName + " Врывается в чат", msg.messageId)
-            }
-            return true
-        }
-        if (msg.leftChatMember != null) {
-            rshG.sendSimpleNotification(msg.chat.id, "@" + msg.leftChatMember.userName + " Прощай", msg.messageId)
-            return true
-        }
-
-        //пин+
-        if (msg.text == null) {
-            return true
-        }
-
-        return false
-    }
-
-    fun workSpam(msg : com.example.terdlor_first_bot.bd.model.Message) : Boolean {
+    fun work(msg : com.example.terdlor_first_bot.bd.model.Message) : Boolean {
         var isWork = false
         for (ent in spamMap) {
             if (msg.text != null && msg.text!!.contains(ent.key, true)) {
@@ -76,7 +53,7 @@ class SystemMessageWork {
                 DatabaseHelper.getMessageDao().update(msg)
 
                 println(msg.text + " отправил " + DatabaseHelper.getUserDao().findById(msg.from)?.userName + ", чат " + msg.chat + " в " + Date())
-                LogHelper().saveLog(msg.text + " отправил " + DatabaseHelper.getUserDao().findById(msg.from)?.userName + ", чат " + msg.chat + " в " + Date(),
+                log.saveLog(msg.text + " отправил " + DatabaseHelper.getUserDao().findById(msg.from)?.userName + ", чат " + msg.chat + " в " + Date(),
                         DatabaseHelper.getUserDao().findById(msg.from)?.userName!!)
                 isWork = true
             }

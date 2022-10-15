@@ -4,10 +4,7 @@ import com.example.terdlor_first_bot.bd.DatabaseHelper
 import com.example.terdlor_first_bot.utils.LogHelper
 import com.example.terdlor_first_bot.utils.SinglResponseHelper
 import com.example.terdlor_first_bot.utils.Печататель
-import com.example.terdlor_first_bot.worker.GroupMessageWork
-import com.example.terdlor_first_bot.worker.LastSpamInfoWork
-import com.example.terdlor_first_bot.worker.SinglMessageWork
-import com.example.terdlor_first_bot.worker.SystemMessageWork
+import com.example.terdlor_first_bot.worker.*
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.context.ApplicationContext
@@ -48,26 +45,23 @@ class BotApp @Autowired constructor (
         try {
             val msg = DatabaseHelper.getMessageDao().save(update.message)
 
-            if (context.getBean("getSystemMessageWork", SystemMessageWork::class.java).work(update.message, msg)) {
+            if (context.getBean("welcomMessageWork", WelcomMessageWork::class.java).work(update.message, msg)) {
+                return
+            }
+            if (context.getBean("spamMessageWork", SpamMessageWork::class.java).work(msg)) {
+                return
+            }
+            if (context.getBean("lastSpamInfoWork", LastSpamInfoWork::class.java).work(update.message, msg)) {
                 return
             }
 
-            if (update.message.chat.id > 0) {
-                if (context.getBean("getSinglLastSpamInfoWorkBean", LastSpamInfoWork::class.java).work(update.message, msg))
-                    return
+            if (update.message.chat.id > 0 &&
+                    context.getBean("singlMessageWorkBean", SinglMessageWork::class.java).work(msg)) {
+                return
             }
-            if (update.message.chat.id < 0) {
-                if (context.getBean("getGroupLastSpamInfoWorkBean", LastSpamInfoWork::class.java).work(update.message, msg))
-                    return
-            }
-
-            if (update.message.chat.id > 0) {
-                if (context.getBean("singlMessageWorkBean", SinglMessageWork::class.java).work(msg))
-                    return
-            }
-            if (update.message.chat.id < 0) {
-                if (context.getBean("groupMessageWorkBean", GroupMessageWork::class.java).work(msg))
-                    return
+            if (update.message.chat.id < 0 &&
+                    context.getBean("groupMessageWorkBean", GroupMessageWork::class.java).work(msg)) {
+                return
             }
         } catch (ex : Exception) {
             val str = Печататель().дайException(ex)
