@@ -19,7 +19,7 @@ class LastSpamInfoWork {
     @Autowired
     private lateinit var log : LogHelper
 
-    fun work(msg : Message, msgBd : com.example.terdlor_first_bot.bd.model.Message) : Boolean {
+    fun work(msg : Message, msgBd : com.example.terdlor_first_bot.bd.chat.model.Message) : Boolean {
         try {
             if (msg.entities == null) return false
             val entity : MessageEntity? =

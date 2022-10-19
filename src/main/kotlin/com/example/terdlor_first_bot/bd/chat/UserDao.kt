@@ -1,6 +1,6 @@
-package com.example.terdlor_first_bot.bd.dao
+package com.example.terdlor_first_bot.bd.chat
 
-import com.example.terdlor_first_bot.bd.model.User
+import com.example.terdlor_first_bot.bd.chat.model.User
 import com.j256.ormlite.dao.Dao
 import java.sql.SQLException
 

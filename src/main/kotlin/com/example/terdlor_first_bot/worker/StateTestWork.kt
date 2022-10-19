@@ -14,7 +14,7 @@ import org.telegram.telegrambots.meta.api.objects.MessageEntity
 @Component
 class StateTestWork(tgbParam : TelegramLongPollingBot) {
 
-    private var rsh : SinglResponseHelper
+    private var rsh : SinglResponseHelper? = null
 
     lateinit var stateMachine: StateMachine<States, Events>
 
@@ -22,7 +22,7 @@ class StateTestWork(tgbParam : TelegramLongPollingBot) {
         rsh = SinglResponseHelper(tgbParam)
     }
 
-    fun work(msg : Message, msgBd : com.example.terdlor_first_bot.bd.model.Message) : Boolean {
+    fun work(msg : Message, msgBd : com.example.terdlor_first_bot.bd.chat.model.Message) : Boolean {
         try {
             if (msg.entities == null) return false
 
@@ -35,7 +35,7 @@ class StateTestWork(tgbParam : TelegramLongPollingBot) {
             entity =
                     msg.entities.stream().filter{ en -> en.type.equals("bot_command") && en.text.equals("/get_st") }.findAny().orElse(null)
             if (entity != null) {
-                rsh.sendSimpleNotification(msg.chat.id, stateMachine?.getState().toString(), msg.messageId)
+                rsh?.sendSimpleNotification(msg.chat.id, stateMachine?.getState().toString(), msg.messageId)
                 return true
             }
             entity =
@@ -49,7 +49,7 @@ class StateTestWork(tgbParam : TelegramLongPollingBot) {
             val str =Печататель().дайException(ex)
             println(str)
             LogHelper().saveLog(str, "ОШИБКА-" + DatabaseHelper.getUserDao().findById(msg.from.id)?.userName!!)
-            rsh.sendSimpleNotification(msg.chat.id, str, msg.messageId)
+            rsh?.sendSimpleNotification(msg.chat.id, str, msg.messageId)
             return false
         }
     }

@@ -1,8 +1,8 @@
-package com.example.terdlor_first_bot.bd.dao.impl
+package com.example.terdlor_first_bot.bd.chat.impl
 
 import com.example.terdlor_first_bot.bd.DatabaseHelper
-import com.example.terdlor_first_bot.bd.dao.MessageDao
-import com.example.terdlor_first_bot.bd.model.Message
+import com.example.terdlor_first_bot.bd.chat.MessageDao
+import com.example.terdlor_first_bot.bd.chat.model.Message
 import com.j256.ormlite.dao.BaseDaoImpl
 import com.j256.ormlite.dao.GenericRawResults
 import com.j256.ormlite.support.ConnectionSource

@@ -1,6 +1,7 @@
 package com.example.terdlor_first_bot.worker
 
 import com.example.terdlor_first_bot.bd.DatabaseHelper
+import com.example.terdlor_first_bot.bd.chat.model.Message
 import com.example.terdlor_first_bot.utils.GroupResponseHelper
 import com.example.terdlor_first_bot.utils.LogHelper
 import com.example.terdlor_first_bot.utils.SinglResponseHelper
@@ -29,7 +30,7 @@ class SpamMessageWork {
     @Autowired
     private lateinit var log : LogHelper
 
-    fun work(msg : com.example.terdlor_first_bot.bd.model.Message) : Boolean {
+    fun work(msg : Message) : Boolean {
         var isWork = false
         for (ent in spamMap) {
             if (msg.text != null && msg.text!!.contains(ent.key, true)) {

@@ -1,7 +1,7 @@
-package com.example.terdlor_first_bot.bd.dao.impl
+package com.example.terdlor_first_bot.bd.chat.impl
 
-import com.example.terdlor_first_bot.bd.dao.ChatDao
-import com.example.terdlor_first_bot.bd.model.Chat
+import com.example.terdlor_first_bot.bd.chat.ChatDao
+import com.example.terdlor_first_bot.bd.chat.model.Chat
 import com.j256.ormlite.dao.BaseDaoImpl
 import com.j256.ormlite.support.ConnectionSource
 import java.sql.SQLException

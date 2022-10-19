@@ -1,4 +1,4 @@
-package com.example.terdlor_first_bot.bd.model
+package com.example.terdlor_first_bot.bd.system.model
 
 import com.j256.ormlite.field.DatabaseField
 import com.j256.ormlite.table.DatabaseTable

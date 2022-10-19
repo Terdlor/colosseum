@@ -13,7 +13,7 @@ class WelcomMessageWork {
     private lateinit var rshG: GroupResponseHelper
 
 
-    fun work(msg : Message, msgBD : com.example.terdlor_first_bot.bd.model.Message) : Boolean {
+    fun work(msg : Message, msgBD : com.example.terdlor_first_bot.bd.chat.model.Message) : Boolean {
         if (msg.newChatMembers.isNotEmpty()) {
             for (newUser in msg.newChatMembers) {
                 val userDao = DatabaseHelper.getUserDao()
