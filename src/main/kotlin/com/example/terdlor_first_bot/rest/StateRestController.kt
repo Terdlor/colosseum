@@ -1,7 +1,7 @@
 package com.example.terdlor_first_bot.rest
 
-import com.example.terdlor_first_bot.stateMachine.Events
-import com.example.terdlor_first_bot.stateMachine.States
+import com.example.terdlor_first_bot.collosseum.stateMachine.Events
+import com.example.terdlor_first_bot.collosseum.stateMachine.States
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.context.ApplicationContext
 import org.springframework.statemachine.StateMachine
@@ -43,8 +43,8 @@ class StateRestController @Autowired constructor(
         if (count is Int) {
             count++
             stateMachine.extendedState.variables.put("COUNT", count)
-            if (count > 2 && States.STATE1.equals(state)) {
-                stateMachine.sendEvent(Events.EVENT1)
+            if (count > 2 && States.INIT .equals(state)) {
+                stateMachine.sendEvent(Events.CALL)
             }
         }
         return count.toString() + "\n" + stateMachine.state.toString()

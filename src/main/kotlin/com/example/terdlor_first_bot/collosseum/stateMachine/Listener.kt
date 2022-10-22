@@ -1,4 +1,4 @@
-package com.example.terdlor_first_bot.stateMachine
+package com.example.terdlor_first_bot.collosseum.stateMachine
 
 import org.springframework.statemachine.listener.StateMachineListenerAdapter
 import org.springframework.statemachine.state.State

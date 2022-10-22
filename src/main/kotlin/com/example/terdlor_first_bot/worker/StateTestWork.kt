@@ -1,8 +1,8 @@
 package com.example.terdlor_first_bot.worker
 
 import com.example.terdlor_first_bot.bd.DatabaseHelper
-import com.example.terdlor_first_bot.stateMachine.Events
-import com.example.terdlor_first_bot.stateMachine.States
+import com.example.terdlor_first_bot.collosseum.stateMachine.Events
+import com.example.terdlor_first_bot.collosseum.stateMachine.States
 import com.example.terdlor_first_bot.utils.*
 import org.springframework.statemachine.StateMachine
 import org.springframework.stereotype.Component
@@ -29,7 +29,7 @@ class StateTestWork(tgbParam : TelegramLongPollingBot) {
             var entity : MessageEntity? =
                     msg.entities.stream().filter{ en -> en.type.equals("bot_command") && en.text.equals("/start_st") }.findAny().orElse(null)
             if (entity != null) {
-                stateMachine?.start();
+                stateMachine?.start()
                 return true
             }
             entity =
@@ -41,7 +41,7 @@ class StateTestWork(tgbParam : TelegramLongPollingBot) {
             entity =
                     msg.entities.stream().filter{ en -> en.type.equals("bot_command") && en.text.equals("/next_st") }.findAny().orElse(null)
             if (entity != null) {
-                stateMachine?.sendEvent(Events.EVENT1);
+                stateMachine?.sendEvent(Events.CALL)
                 return true
             }
             return false

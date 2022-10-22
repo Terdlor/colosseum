@@ -1,9 +1,11 @@
-package com.example.terdlor_first_bot.stateMachine
+package com.example.terdlor_first_bot.collosseum.stateMachine
 
 import org.springframework.statemachine.StateContext
 import org.springframework.statemachine.action.Action
+import org.springframework.stereotype.Component
 
-class ActionWork : Action<States, Events> {
+@Component("actionError")
+class ActionError : Action<States, Events> {
 
     override fun execute(p0: StateContext<States, Events>?) {
         if (p0 != null) {
