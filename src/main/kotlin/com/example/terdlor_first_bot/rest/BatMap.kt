@@ -1,4 +1,4 @@
-package com.example.terdlor_first_bot.collosseum
+package com.example.terdlor_first_bot.rest
 
 import com.example.terdlor_first_bot.collosseum.stateMachine.Events
 import com.example.terdlor_first_bot.collosseum.stateMachine.States

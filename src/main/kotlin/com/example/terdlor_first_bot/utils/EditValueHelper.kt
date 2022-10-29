@@ -9,4 +9,11 @@ class EditValueHelper {
             def
         }
     }
+
+    fun nickDef(text: String) : String {
+        if (text.startsWith("@")) {
+            return text.substringAfter("@")
+        }
+        return text
+    }
 }

@@ -13,6 +13,8 @@ abstract class ResponseHelper(tgbParam : TelegramLongPollingBot) {
         tgb = tgbParam
     }
 
+    abstract fun sendSimpleNotification(chatId: Long, responseText: String)
+
     abstract fun sendSimpleNotification(chatId: Long, responseText: String, num:  Int)
 
     fun getReplyRemove(): ReplyKeyboardRemove {

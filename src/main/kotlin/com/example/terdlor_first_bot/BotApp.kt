@@ -1,6 +1,8 @@
 package com.example.terdlor_first_bot
 
 import com.example.terdlor_first_bot.bd.DatabaseHelper
+import com.example.terdlor_first_bot.collosseum.worker.AnswerWork
+import com.example.terdlor_first_bot.collosseum.worker.CallWork
 import com.example.terdlor_first_bot.utils.LogHelper
 import com.example.terdlor_first_bot.utils.SinglResponseHelper
 import com.example.terdlor_first_bot.utils.Печататель
@@ -52,6 +54,12 @@ class BotApp @Autowired constructor (
                 return
             }
             if (context.getBean("lastSpamInfoWork", LastSpamInfoWork::class.java).work(update.message, msg)) {
+                return
+            }
+            if (context.getBean("callWork", CallWork::class.java).work(update.message, msg)) {
+                return
+            }
+            if (context.getBean("answerWork", AnswerWork::class.java).work(update.message, msg)) {
                 return
             }
 

@@ -1,7 +1,7 @@
 package com.example.terdlor_first_bot.collosseum.stateMachine
 
-import com.example.terdlor_first_bot.collosseum.BatMap
-import com.example.terdlor_first_bot.collosseum.ColController
+import com.example.terdlor_first_bot.rest.BatMap
+import com.example.terdlor_first_bot.rest.ColController
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.statemachine.StateContext
 import org.springframework.stereotype.Component

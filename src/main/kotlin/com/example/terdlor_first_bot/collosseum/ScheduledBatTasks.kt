@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service
 @EnableScheduling
 @Service
 class ScheduledBatTasks @Autowired constructor(
-        private val stateMap: BatMap) {
+        private val stateMap: BattleMap) {
 
     @Scheduled(fixedRate = 5000)
     fun reportCurrentTime() {
