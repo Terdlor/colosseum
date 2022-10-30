@@ -12,6 +12,8 @@ class ScheduledBatTasks @Autowired constructor(
 
     @Scheduled(fixedRate = 5000)
     fun reportCurrentTime() {
-        println(stateMap.values)
+        val strBuild = StringBuilder()
+        stateMap.forEach{strBuild.appendLine(it.toString())}
+        println(stateMap.toString())
     }
 }

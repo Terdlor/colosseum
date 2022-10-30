@@ -3,6 +3,7 @@ package com.example.terdlor_first_bot
 import com.example.terdlor_first_bot.utils.GroupResponseHelper
 import com.example.terdlor_first_bot.utils.LogHelper
 import com.example.terdlor_first_bot.utils.SinglResponseHelper
+import com.example.terdlor_first_bot.common.CommandWork
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.web.embedded.tomcat.TomcatServletWebServerFactory
 import org.springframework.boot.web.servlet.server.ServletWebServerFactory
@@ -32,4 +33,7 @@ class AppConfig {
     fun getLogHelper () : LogHelper {
         return LogHelper()
     }
+
+    @Bean("commandWorkers")
+    fun getCommandWorkers(@Autowired commandWorkers : List<CommandWork>) = commandWorkers
 }

@@ -3,56 +3,40 @@ package com.example.terdlor_first_bot.collosseum
 import com.example.terdlor_first_bot.bd.chat.model.User
 import com.example.terdlor_first_bot.collosseum.stateMachine.Events
 import com.example.terdlor_first_bot.collosseum.stateMachine.States
-import common.TextException
+import com.example.terdlor_first_bot.common.TextException
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.statemachine.StateMachine
 import org.springframework.statemachine.config.StateMachineFactory
 import org.springframework.stereotype.Component
 
 @Component
 class BattleMap @Autowired constructor(
         val stateMachineFactory: StateMachineFactory<States, Events>
-) : HashMap<Long, StateMachine<States, Events>>() {
+) : HashMap<Long, Battle>() {
 
+
+    //StateMachine<States, Events>
     private var calList = ArrayList<User>()
     private var answList = ArrayList<User>()
 
-    fun getSMC(user1 : User, user2 : User) : StateMachine<States, Events> {
-        val stateMachine = get(user1.id)
-        return if (stateMachine == null) {
+    fun getBattle(user1 : User) = get(user1.id) ?: throw TextException("${user1.userName} никого не вызывали")
+
+    fun getBattle(user1 : User, user2 : User) : Battle {
+        var battle = get(user1.id)
+        return if (battle == null) {
             val st = stateMachineFactory.getStateMachine(user1.id.toString())
-            put(user1.id, st)
-            st.extendedState.variables["BATTLE"] = Battle(user1, user2)
+            battle = Battle(user1, user2, st)
+            put(user1.id, battle)
             calList.add(user1)
             answList.add(user2)
-            st
+            battle
         } else {
-            get(user1.id)!!
+            battle
         }
     }
 
-    fun getSMCnoCreate(user1 : User, user2 : User) : StateMachine<States, Events> {
-        val stateMachine = get(user1.id)
-        return if (stateMachine == null) {
-            throw TextException("${user1.userName} не вызывал ${user2.userName}")
-        } else {
-            get(user1.id)!!
-        }
-    }
+    fun getBattleNoCreate(user1 : User, user2 : User) = get(user1.id) ?: throw TextException("${user1.userName} не вызывал ${user2.userName}")
 
-    fun getSMCany(user1 : User, user2 : User) : StateMachine<States, Events> {
-        var stateMachine = get(user1.id)
-        if (stateMachine != null) {
-            return stateMachine
-        }
-        stateMachine = get(user2.id)
-        if (stateMachine != null) {
-            return stateMachine
-        }
-        throw TextException("${user1.userName} и ${user2.userName} никого не вызывали")
-    }
-
-    fun remove(battle: Battle): StateMachine<States, Events>? {
+    fun remove(battle: Battle): Battle? {
         answList.remove(battle.user2)
         calList.remove(battle.user1)
         return super.remove(battle.user1.id)
@@ -65,7 +49,13 @@ class BattleMap @Autowired constructor(
         if (answList.contains(id)) {
             return 1
         }
-
         return 0
+    }
+
+    override fun toString(): String {
+        val strBuild = StringBuilder()
+        strBuild.appendLine("вызывающие ${calList.map { it.userName }}, принимающие ${answList.map { it.userName }}")
+        this.forEach { strBuild.appendLine("${it.key} - ${it.value}")}
+        return strBuild.toString()
     }
 }

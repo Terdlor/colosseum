@@ -1,4 +1,4 @@
-package common
+package com.example.terdlor_first_bot.common
 
 import com.example.terdlor_first_bot.BotApp
 import com.example.terdlor_first_bot.bd.DatabaseHelper
@@ -19,7 +19,7 @@ abstract class CommandWork {
 
     abstract var command : String
 
-    abstract fun commandWork(msg : Message, msgBd : com.example.terdlor_first_bot.bd.chat.model.Message)
+    abstract fun commandWork(msgBd : com.example.terdlor_first_bot.bd.chat.model.Message)
 
     fun work(msg : Message, msgBd : com.example.terdlor_first_bot.bd.chat.model.Message) : Boolean {
         try {
@@ -28,7 +28,7 @@ abstract class CommandWork {
                     msg.entities.stream().filter{ en -> en.type == "bot_command" &&
                             (en.text.equals("/$command") || en.text.equals("/$command@" + BotApp.foo)) }.findAny().orElse(null)
             if (entity != null) {
-                commandWork(msg, msgBd)
+                commandWork(msgBd)
                 return true
             }
             return false
@@ -37,7 +37,7 @@ abstract class CommandWork {
                 println("Нормальная ошибка - " + ex.msg)
                 log.saveLog(ex.msg, "НОРМ_ОШИБКА-" + DatabaseHelper.getUserDao().findById(msg.from.id)?.userName!!)
                 sendNotification(msg.chat.id, ex.msg)
-                false
+                true
             } else {
                 val str = Печататель().дайException(ex)
                 println(str)
@@ -48,8 +48,10 @@ abstract class CommandWork {
         }
     }
 
-    fun getParam(msg : Message) : String {
-        return msg.text.substringAfter("/$command@" + BotApp.foo).trim().substringAfter("/$command").trim()
+    fun getParam(msg : String?) : String {
+        if (msg == null)
+            return ""
+        return msg.substringAfter("/$command@" + BotApp.foo).trim().substringAfter("/$command").trim()
     }
 
     fun sendNotification(id : Long, msg : String, msgId : Int) {
