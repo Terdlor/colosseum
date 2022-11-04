@@ -24,6 +24,8 @@ class Message {
     var forwardDate: Int? = null
     @DatabaseField
     var text: String? = null
+    @DatabaseField
+    var caption: String? = null
 
     @DatabaseField
     var insert_date: Date? = null
@@ -39,7 +41,7 @@ class Message {
         strBuild.append("{")
                 .append("messageId=$messageId, ").append("from=$from, ").append("date=$date, ")
                 .append("chat=$chat, ").append("forwardFrom=$forwardFrom, ").append("forwardFromChat=$forwardFromChat, ")
-                .append("forwardDate=$forwardDate, ").append("text=$text, ")
+                .append("forwardDate=$forwardDate, ").append("text=$text, ").append("caption=$caption, ")
                 .append("insert_date=$insert_date, ").append("rq=$rq, ").append("rs=$rs, ").append("rs_chat_id=$rs_chat_id").appendLine("}")
         return strBuild.toString()
     }
@@ -59,6 +61,7 @@ class Message {
         if (forwardFromChat != null) strBuild.append(", forwardFromChat=$forwardFromChat")
         if (forwardDate != null) strBuild.append(", forwardDate=$forwardDate")
         if (text != null) strBuild.append(", text=$text")
+        if (caption != null) strBuild.append(", caption=$caption")
         if (insert_date != null) strBuild.append(", insert_date=$insert_date")
         //if (rq != null) strBuild.append(", rq=$rq")
         //if (rs != null) strBuild.append(", rs=$rs")

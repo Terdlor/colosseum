@@ -25,8 +25,7 @@ class User {
     var canReadAllGroupMessages: Boolean? = null
     @DatabaseField
     var supportInlineQueries: Boolean? = null
-
-    @DatabaseField()
+    @DatabaseField
     var insert_date: Date? = null
 
     override fun toString() : String {

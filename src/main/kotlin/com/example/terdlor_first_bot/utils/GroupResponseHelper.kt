@@ -1,7 +1,10 @@
 package com.example.terdlor_first_bot.utils
 
 import org.telegram.telegrambots.bots.TelegramLongPollingBot
+import org.telegram.telegrambots.meta.api.methods.send.SendDocument
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage
+import org.telegram.telegrambots.meta.api.objects.InputFile
+import java.io.File
 
 class GroupResponseHelper(tgbParam : TelegramLongPollingBot) : ResponseHelper(tgbParam) {
 
@@ -28,6 +31,13 @@ class GroupResponseHelper(tgbParam : TelegramLongPollingBot) : ResponseHelper(tg
         val responseMessage = SendMessage(chatId.toString(), massage)
         responseMessage.enableMarkdown(true)
         responseMessage.replyMarkup = getReplyRemove()
-        tgb.execute(responseMessage)
+        tgbParam.execute(responseMessage)
+    }
+
+    override fun sendSimpleFile(chatId: Long, file: File) {
+        val input = InputFile(file)
+        val doc = SendDocument(chatId.toString(), input)
+        doc.replyMarkup = getReplyRemove()
+        tgbParam.execute(doc)
     }
 }

@@ -6,6 +6,7 @@ import com.example.terdlor_first_bot.utils.SinglResponseHelper
 import com.example.terdlor_first_bot.utils.Печататель
 import com.example.terdlor_first_bot.worker.*
 import com.example.terdlor_first_bot.common.CommandWork
+import com.example.terdlor_first_bot.common.DocumentWork
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.context.ApplicationContext
@@ -58,6 +59,12 @@ class BotApp : TelegramLongPollingBot() {
             if (commandWorkers is List<*>) {
                 for (commandWork in commandWorkers) {
                     if (commandWork is CommandWork && commandWork.work(update.message, msg)) return
+                }
+            }
+            val documentWorkers = context.getBean("documentWorkers")
+            if (documentWorkers is List<*>) {
+                for (documentWork in documentWorkers) {
+                    if (documentWork is DocumentWork && documentWork.work(update.message, msg)) return
                 }
             }
 

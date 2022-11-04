@@ -1,27 +1,30 @@
 package com.example.terdlor_first_bot.bd
 
-import com.example.terdlor_first_bot.bd.chat.ChatDao
-import com.example.terdlor_first_bot.bd.chat.MessageDao
-import com.example.terdlor_first_bot.bd.chat.UserDao
 import com.example.terdlor_first_bot.bd.chat.model.Chat
 import com.example.terdlor_first_bot.bd.chat.model.Message
 import com.example.terdlor_first_bot.bd.chat.model.User
-import com.example.terdlor_first_bot.bd.collosseum.HeroDao
-import com.example.terdlor_first_bot.bd.collosseum.PlayerDao
 import com.example.terdlor_first_bot.bd.collosseum.impl.HeroDaoImpl
 import com.example.terdlor_first_bot.bd.collosseum.impl.PlayerDaoImpl
 import com.example.terdlor_first_bot.bd.chat.impl.ChatDaoImpl
 import com.example.terdlor_first_bot.bd.system.impl.DbInfoDaoImpl
 import com.example.terdlor_first_bot.bd.chat.impl.MessageDaoImpl
 import com.example.terdlor_first_bot.bd.chat.impl.UserDaoImpl
-import com.example.terdlor_first_bot.bd.collosseum.BattleDao
-import com.example.terdlor_first_bot.bd.collosseum.BattleStepDao
 import com.example.terdlor_first_bot.bd.collosseum.impl.BattleDaoImpl
 import com.example.terdlor_first_bot.bd.collosseum.impl.BattleStepDaoImpl
 import com.example.terdlor_first_bot.bd.collosseum.model.Battle
 import com.example.terdlor_first_bot.bd.collosseum.model.BattleStep
 import com.example.terdlor_first_bot.bd.collosseum.model.Hero
 import com.example.terdlor_first_bot.bd.collosseum.model.Player
+import com.example.terdlor_first_bot.bd.dubas.impl.BrandDaoImpl
+import com.example.terdlor_first_bot.bd.dubas.impl.LineDaoImpl
+import com.example.terdlor_first_bot.bd.dubas.impl.TagDaoImpl
+import com.example.terdlor_first_bot.bd.dubas.impl.TobaccoDaoImpl
+import com.example.terdlor_first_bot.bd.dubas.impl.TobaccoTagDaoImpl
+import com.example.terdlor_first_bot.bd.dubas.model.Brand
+import com.example.terdlor_first_bot.bd.dubas.model.Line
+import com.example.terdlor_first_bot.bd.dubas.model.Tag
+import com.example.terdlor_first_bot.bd.dubas.model.Tobacco
+import com.example.terdlor_first_bot.bd.dubas.model.TobaccoTag
 import com.example.terdlor_first_bot.bd.system.model.DbInfo
 import com.example.terdlor_first_bot.utils.println
 import com.j256.ormlite.jdbc.JdbcPooledConnectionSource
@@ -38,7 +41,7 @@ object DatabaseHelper {
     private val password: String = "111"
 
     @Value("\${spring.datasource.url}")
-    private val url: String = "jdbc:h2:file:./data/testdb"
+    private val url: String = "jdbc:h2:file:./data/testdb;AUTO_SERVER=TRUE"
 
     private var connectionSource: JdbcPooledConnectionSource? = null
 
@@ -60,33 +63,20 @@ object DatabaseHelper {
         connectionSource?.close()
     }
 
-    fun getUserDao(): UserDao {
-        return UserDaoImpl(instance())
-    }
+    fun getUserDao() = UserDaoImpl(instance())
+    fun getChatDao() = ChatDaoImpl(instance())
+    fun getMessageDao() = MessageDaoImpl(instance())
 
-    fun getChatDao(): ChatDao {
-        return ChatDaoImpl(instance())
-    }
+    fun getHeroDao() = HeroDaoImpl(instance())
+    fun getPlayerDao() = PlayerDaoImpl(instance())
+    fun getBattleDao() = BattleDaoImpl(instance())
+    fun getBattleStepDao() = BattleStepDaoImpl(instance())
 
-    fun getMessageDao(): MessageDao {
-        return MessageDaoImpl(instance())
-    }
-
-    fun getHeroDao(): HeroDao {
-        return HeroDaoImpl(instance())
-    }
-
-    fun getPlayerDao(): PlayerDao {
-        return PlayerDaoImpl(instance())
-    }
-
-    fun getBattleDao(): BattleDao {
-        return BattleDaoImpl(instance())
-    }
-
-    fun getBattleStepDao(): BattleStepDao {
-        return BattleStepDaoImpl(instance())
-    }
+    fun getBrandDao() = BrandDaoImpl(instance())
+    fun getLineDao() = LineDaoImpl(instance())
+    fun getTagDao() = TagDaoImpl(instance())
+    fun getTobaccoDao() = TobaccoDaoImpl(instance())
+    fun getTobaccoTagDao() = TobaccoTagDaoImpl(instance())
 
     private fun update1() {
         TableUtils.createTableIfNotExists(connectionSource, DbInfo::class.java)
@@ -116,6 +106,16 @@ object DatabaseHelper {
         TableUtils.createTableIfNotExists(connectionSource, Hero::class.java)
         TableUtils.createTableIfNotExists(connectionSource, Battle::class.java)
         TableUtils.createTableIfNotExists(connectionSource, BattleStep::class.java)
+
+        TableUtils.createTableIfNotExists(connectionSource, Brand::class.java)
+        TableUtils.createTableIfNotExists(connectionSource, Line::class.java)
+        TableUtils.createTableIfNotExists(connectionSource, Tag::class.java)
+        TableUtils.createTableIfNotExists(connectionSource, Tobacco::class.java)
+        TableUtils.createTableIfNotExists(connectionSource, TobaccoTag::class.java)
+
+        val dao = DbInfoDaoImpl(connectionSource)
+        dao.executeRaw("ALTER TABLE `MESSAGE` ADD COLUMN IF NOT EXISTS caption VARCHAR(255);")
+
         DbInfoDaoImpl(connectionSource).save(3)
         println("---обновление бд до v3---")
     }
@@ -129,5 +129,11 @@ object DatabaseHelper {
         TableUtils.dropTable(getPlayerDao(), true)
         TableUtils.dropTable(getBattleDao(), true)
         TableUtils.dropTable(getBattleStepDao(), true)
+        TableUtils.dropTable(getBrandDao(), true)
+        TableUtils.dropTable(getLineDao(), true)
+        TableUtils.dropTable(getTagDao(), true)
+        TableUtils.dropTable(getTobaccoDao(), true)
+        TableUtils.dropTable(getTobaccoTagDao(), true)
+        println("---бд очищена---")
     }
 }

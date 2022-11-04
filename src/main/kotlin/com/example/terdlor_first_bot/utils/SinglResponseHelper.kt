@@ -1,7 +1,10 @@
 package com.example.terdlor_first_bot.utils
 
 import org.telegram.telegrambots.bots.TelegramLongPollingBot
+import org.telegram.telegrambots.meta.api.methods.send.SendDocument
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage
+import org.telegram.telegrambots.meta.api.objects.InputFile
+import java.io.File
 
 class SinglResponseHelper(tgbParam : TelegramLongPollingBot) : ResponseHelper(tgbParam) {
 
@@ -35,6 +38,20 @@ class SinglResponseHelper(tgbParam : TelegramLongPollingBot) : ResponseHelper(tg
                         //  listOf("Кнопка 3", "Кнопка 4")
                 )
         )
-        tgb.execute(responseMessage)
+        tgbParam.execute(responseMessage)
+    }
+
+    override fun sendSimpleFile(chatId: Long, file: File) {
+        val input = InputFile(file)
+        val doc = SendDocument(chatId.toString(), input)
+        // добавляем 4 кнопки
+        doc.replyMarkup = getReplyMarkup(
+                listOf(
+                        listOf("СПААААМ")
+                        //  listOf("Кнопка 1", "Кнопка 2"),
+                        //  listOf("Кнопка 3", "Кнопка 4")
+                )
+        )
+        tgbParam.execute(doc)
     }
 }
