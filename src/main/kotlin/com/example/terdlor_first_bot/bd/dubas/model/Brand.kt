@@ -8,6 +8,7 @@ import java.util.*
 @DatabaseTable(tableName = "DBS_BRAND")
 class Brand {
 
+    @Expose
     @DatabaseField(generatedId = true)
     var  id: Int = 1
     @Expose
@@ -15,7 +16,7 @@ class Brand {
     var name: String? = null
     @Expose
     @DatabaseField
-    var isLine: Boolean = false
+    var hasLines: Boolean = false
     @Expose
     @DatabaseField
     var insert_date: Date? = null
