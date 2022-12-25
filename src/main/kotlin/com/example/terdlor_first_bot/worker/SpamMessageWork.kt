@@ -16,7 +16,7 @@ import kotlin.collections.ArrayList
 class SpamMessageWork {
 
     companion object {
-        var spamMap = mapOf(
+        var spamMap = mapOf (
                 "dubasit" to "ПОРА ЗАБИВАТЬ!!!",
                 "СПААААМ" to "ПЕСПЕРЕПЕС",
                 "srat_v_trubi" to "В ТРУБЫ...... НАСРААААЛИ",
