@@ -18,7 +18,7 @@ class ProbitieWork : CommandWork() {
         val podzhogStr: String
         val probitieEmoji: String
         val podzhogEmoji = String(Character.toChars(128293))
-        val randomCockSize = Random().nextInt(50)
+        val randomCockSize = Random().nextInt(51)
 
         // Flavor-текст для 50 см
         val dickNamesList = arrayListOf<String>("хуищем", "дрыном", "титанюгой", "гигантом", "йормунгандром")
