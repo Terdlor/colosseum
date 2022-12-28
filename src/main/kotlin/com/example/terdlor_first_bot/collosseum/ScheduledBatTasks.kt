@@ -14,6 +14,6 @@ class ScheduledBatTasks @Autowired constructor(
     fun reportCurrentTime() {
         val strBuild = StringBuilder()
         stateMap.forEach{strBuild.appendLine(it.toString())}
-        println(stateMap.toString())
+        com.example.terdlor_first_bot.utils.println(stateMap.toString())
     }
 }
