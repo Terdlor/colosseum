@@ -17,6 +17,7 @@ class CallWork : CommandWork() {
     private lateinit var stateMap: BattleMap
 
     override var command = "go_battle"
+    override var commandDesc = "Вызов(collosseum)"
 
     override fun commandWork(msgBd: com.example.terdlor_first_bot.bd.chat.model.Message) {
         val userAnswer = EditValueHelper().nick(getParam(msgBd.text))

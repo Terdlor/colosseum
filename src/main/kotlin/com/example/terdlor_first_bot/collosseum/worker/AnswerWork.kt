@@ -18,6 +18,7 @@ class AnswerWork : CommandWork() {
     private lateinit var stateMap: BattleMap
 
     override var command = "nu_go_battle"
+    override var commandDesc = "Ответ на вызов(collosseum)"
 
     override fun commandWork(msgBd: com.example.terdlor_first_bot.bd.chat.model.Message) {
 

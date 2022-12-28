@@ -14,6 +14,7 @@ import java.util.*
 class SetBrandWork : DocumentWork() {
 
     override var command = "sys_set_brands"
+    override var commandDesc = "Запись брендов(content)"
 
     override fun commandWork(msgBd: com.example.terdlor_first_bot.bd.chat.model.Message, doc : Document) {
 

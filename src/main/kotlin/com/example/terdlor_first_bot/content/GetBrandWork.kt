@@ -14,6 +14,7 @@ import java.util.*
 class GetBrandWork : CommandWork() {
 
     override var command = "sys_get_brands"
+    override var commandDesc = "Получение брендов(content)"
 
     private val dateFormat = SimpleDateFormat("yyyy-MM-dd'T'HH-mm-ss")
 

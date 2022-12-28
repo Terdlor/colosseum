@@ -16,6 +16,7 @@ class ProbitieWork : CommandWork() {
     private lateinit var probitieMap: ProbitieMap
 
     override var command = "probitie"
+    override var commandDesc = "Пробить"
 
     override fun commandWork(msgBd : com.example.terdlor_first_bot.bd.chat.model.Message) {
 

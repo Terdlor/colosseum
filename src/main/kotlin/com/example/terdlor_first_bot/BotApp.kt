@@ -54,6 +54,9 @@ class BotApp : TelegramLongPollingBot() {
             if (context.getBean("spamMessageWork", SpamMessageWork::class.java).work(msg)) {
                 return
             }
+            if (context.getBean("helpWork", HelpWork::class.java).work(update.message, msg)) {
+                return
+            }
 
             val commandWorkers = context.getBean("commandWorkers")
             if (commandWorkers is List<*>) {

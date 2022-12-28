@@ -20,6 +20,7 @@ abstract class Work {
     lateinit var rqH: RequestHelper
 
     abstract var command : String
+    abstract var commandDesc : String
 
     abstract fun checkWork(msg : Message, msgBd : com.example.terdlor_first_bot.bd.chat.model.Message) : Boolean
 
