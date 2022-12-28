@@ -14,7 +14,7 @@ class ProbitieMap : HashMap<Long, ProbitieMap.Probitie>() {
         if (get(user1.id) == null) {
             set(user1.id, Probitie(createStr()))
         }
-        return get(user1.id)?.value ?: "AAAAAAAAAA"
+        return get(user1.id)!!.value
     }
 
     fun createStr() : String {
