@@ -30,7 +30,7 @@ class ProbitieWork : CommandWork() {
         println(strBuild.toString())
 
         // Выводим ответ в чат телеги
-        sendNotification(msgBd.chat, strBuild.toString())
+        sendReplyNotification(msgBd.chat, strBuild.toString(), msgBd.messageId)
 
         // Логируем
         msgBd.rs = strBuild.toString()

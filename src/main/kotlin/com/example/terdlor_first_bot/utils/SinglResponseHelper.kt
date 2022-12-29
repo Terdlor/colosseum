@@ -41,6 +41,33 @@ class SinglResponseHelper(tgbParam : TelegramLongPollingBot) : ResponseHelper(tg
         tgbParam.execute(responseMessage)
     }
 
+    override fun sendReplyNotification(chatId: Long, responseText: String, replyId : Int) {
+
+        val out : String = if (responseText.count() > 4098) {
+            "сообщение больше 4098 символов, слать не умею"
+        } else {
+            responseText
+                    .replace("_", "\\_")
+                    .replace("*", "\\*")
+                    .replace("[", "\\[")
+                    .replace("`", "\\`")
+        }
+        val massage: String = out
+
+        val responseMessage = SendMessage(chatId.toString(), massage)
+        responseMessage.enableMarkdown(true)
+        // добавляем 4 кнопки
+        responseMessage.replyMarkup = getReplyMarkup(
+                listOf(
+                        listOf("СПААААМ")
+                        //  listOf("Кнопка 1", "Кнопка 2"),
+                        //  listOf("Кнопка 3", "Кнопка 4")
+                )
+        )
+        responseMessage.replyToMessageId = replyId
+        tgbParam.execute(responseMessage)
+    }
+
     override fun sendSimpleFile(chatId: Long, file: File) {
         val input = InputFile(file)
         val doc = SendDocument(chatId.toString(), input)

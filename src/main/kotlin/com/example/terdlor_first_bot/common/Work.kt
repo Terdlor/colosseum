@@ -49,6 +49,14 @@ abstract class Work {
         return msg.substringAfter("/$command@" + BotApp.foo).trim().substringAfter("/$command").trim()
     }
 
+    fun sendReplyNotification(id : Long, msg : String, replyId : Int) {
+        if (id > 0) {
+            rsSH.sendReplyNotification(id, msg, replyId)
+        } else {
+            rsGH.sendReplyNotification(id, msg, replyId)
+        }
+    }
+
     fun sendNotification(id : Long, msg : String, msgId : Int) {
         if (id > 0) {
             rsSH.sendSimpleNotification(id, msg, msgId)
