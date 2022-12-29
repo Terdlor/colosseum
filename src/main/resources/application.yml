@@ -1,6 +1,6 @@
 telegram:
-  botName: MyPenetrationBot
-  token: 5804316353:AAFyFKzrpP6d5VdkX0-K8at6bwBr3VT6Dz4
+  botName: ***
+  token: ***
 spring:
   h2:
     console:
