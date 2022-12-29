@@ -24,11 +24,12 @@ class ProbitieMap : HashMap<Long, ProbitieMap.Probitie>() {
         val podzhogStr: String
         val probitieEmoji: String
         val podzhogEmoji = String(Character.toChars(128293))
+        val critEmoji: String
         val randomCockSize = Random().nextInt(51)
 
         // Flavor-текст для 50 см
         val dickNamesList = arrayListOf("хуищем", "дрыном", "титанюгой", "гигантом", "йормунгандром")
-        val randomDickNameInt = Random().nextInt(dickNamesList.size-1)
+        val randomDickNameInt = Random().nextInt(dickNamesList.size)
         val dickName = dickNamesList.get(randomDickNameInt)
 
         // Flavor-текст для 0 см
@@ -38,7 +39,7 @@ class ProbitieMap : HashMap<Long, ProbitieMap.Probitie>() {
                 "Наш детектор не распознал у вас наличие COCK",
                 "Вы просыпаетесь на кухне с сильным желанием приготовить что-то вкусное"
         )
-        val randomNoDickNameInt = Random().nextInt(noDickNameList.size-1)
+        val randomNoDickNameInt = Random().nextInt(noDickNameList.size)
         val noDickName = noDickNameList.get(randomNoDickNameInt)
 
         // Flavor-текст для поджога
@@ -57,11 +58,18 @@ class ProbitieMap : HashMap<Long, ProbitieMap.Probitie>() {
             probitieEmoji = String(Character.toChars(128522))
         }
 
+        // Меняем эмодзи для критов
+        when (randomCockSize) {
+            50 -> critEmoji = String(Character.toChars(128525))
+            0 -> critEmoji = String(Character.toChars(128557))
+            else -> critEmoji = ""
+        }
+
         // Запускаем сборщик строки
         val strBuild = StringBuilder()
         when (randomCockSize) {
-            50 -> strBuild.appendLine("Ты пробиваешь всех в этом чате своим $randomCockSize-сантиметровым $dickName \n$podzhogStr")
-            0 -> strBuild.appendLine("Твой размер $randomCockSize см \n$noDickName")
+            50 -> strBuild.appendLine("Ты пробиваешь всех в этом чате своим $randomCockSize-сантиметровым $dickName $critEmoji \n$podzhogStr")
+            0 -> strBuild.appendLine("Твой размер $randomCockSize см $critEmoji \n$noDickName")
             in 45..49 ->
                 if (hasProbitie) {
                     strBuild.appendLine("Есть пробитие сзади $probitieEmoji \nТебя критануло аж на $randomCockSize см \n$podzhogStr")
