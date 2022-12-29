@@ -55,6 +55,7 @@ class DatabaseHelper private constructor() {
                     0L -> update1()
                     1L -> update2()
                     2L -> update3()
+                    3L -> update4()
                     else -> println("---действий по изменению бд не требуется---")
                 }
             }
@@ -120,7 +121,17 @@ class DatabaseHelper private constructor() {
 
             DbInfoDaoImpl(connectionSource).save(3)
             println("---обновление бд до v3---")
+            update4()
         }
+
+        private fun update4() {
+            val dao = DbInfoDaoImpl(connectionSource)
+            dao.executeRaw("ALTER TABLE `MESSAGE` ADD COLUMN IF NOT EXISTS replyMessageId NUMBER;")
+
+            DbInfoDaoImpl(connectionSource).save(4)
+            println("---обновление бд до v4---")
+        }
+
 
         private fun truncateAll() {
             TableUtils.dropTable(DbInfoDaoImpl(connectionSource), true)

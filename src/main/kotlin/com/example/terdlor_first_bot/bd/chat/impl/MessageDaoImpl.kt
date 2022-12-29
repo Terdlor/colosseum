@@ -55,11 +55,16 @@ class MessageDaoImpl(connectionSource: ConnectionSource?) : BaseDaoImpl<Message,
             chatDao.saveIfNotExist(messageTG.forwardFromChat)
             message.forwardFromChat = messageTG.forwardFromChat.id
         }
-
         message.forwardDate = messageTG.forwardDate
         message.text = messageTG.text
         message.insert_date = Date()
         message.rq = messageTG.toString()
+
+        if (messageTG.replyToMessage != null) {
+            saveIfNotExist(messageTG.replyToMessage)
+            message.replyMessageId = messageTG.replyToMessage.messageId
+        }
+
         create(message)
         return message
     }

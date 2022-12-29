@@ -29,6 +29,8 @@ class Message {
 
     @DatabaseField
     var insert_date: Date? = null
+    @DatabaseField
+    var replyMessageId: Int? = null
     @DatabaseField(columnDefinition = "VARCHAR2(4098)")
     var rq: String? = null
     @DatabaseField(columnDefinition = "VARCHAR2(4098)")
@@ -42,7 +44,8 @@ class Message {
                 .append("messageId=$messageId, ").append("from=$from, ").append("date=$date, ")
                 .append("chat=$chat, ").append("forwardFrom=$forwardFrom, ").append("forwardFromChat=$forwardFromChat, ")
                 .append("forwardDate=$forwardDate, ").append("text=$text, ").append("caption=$caption, ")
-                .append("insert_date=$insert_date, ").append("rq=$rq, ").append("rs=$rs, ").append("rs_chat_id=$rs_chat_id").appendLine("}")
+                .append("insert_date=$insert_date, ").append("replyMessageId=$replyMessageId, ").append("rq=$rq, ")
+                .append("rs=$rs, ").append("rs_chat_id=$rs_chat_id").appendLine("}")
         return strBuild.toString()
     }
 
@@ -63,6 +66,7 @@ class Message {
         if (text != null) strBuild.append(", text=$text")
         if (caption != null) strBuild.append(", caption=$caption")
         if (insert_date != null) strBuild.append(", insert_date=$insert_date")
+        if (replyMessageId != null) strBuild.append(", replyMessageId=$replyMessageId")
         //if (rq != null) strBuild.append(", rq=$rq")
         //if (rs != null) strBuild.append(", rs=$rs")
         //if (rs_chat_id != null) strBuild.append(", rs_chat_id=$rs_chat_id")
