@@ -28,7 +28,7 @@ class ProbitieMap : HashMap<Long, ProbitieMap.Probitie>() {
         val randomCockSize = Random().nextInt(51)
 
         // Flavor-текст для 50 см
-        val dickNamesList = arrayListOf("хуищем", "дрыном", "титанюгой", "гигантом", "йормунгандром")
+        val dickNamesList = arrayListOf("хуищем", "дрыном", "титанюгой", "гигантом", "йормунгандром", "кинг-конгом")
         val randomDickNameInt = Random().nextInt(dickNamesList.size)
         val dickName = dickNamesList.get(randomDickNameInt)
 
