@@ -10,7 +10,7 @@ spring:
         trace: false
         web-allow-others: false
   datasource:
-    url: jdbc:h2:file:./data/testdb
+    url: jdbc:h2:file:./data/colosseumDb
     username: sa
     password: 111
   jpa:
@@ -21,4 +21,4 @@ spring:
         use_sql_comments: true
         format_sql: true
 server:
-  port: 8090
+  port: 8092

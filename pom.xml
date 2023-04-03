@@ -8,11 +8,11 @@
 		<version>2.6.11</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>com.example</groupId>
-	<artifactId>terdlor_first_bot</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
-	<name>terdlor_first_bot</name>
-	<description>terdlor_first_bot</description>
+	<groupId>com.terdev</groupId>
+	<artifactId>colosseum</artifactId>
+	<version>0.0.1</version>
+	<name>colosseum</name>
+	<description>colosseumBot</description>
 	<properties>
 		<java.version>1.8</java.version>
 		<kotlin.version>1.6.21</kotlin.version>
