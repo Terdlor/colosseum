@@ -31,11 +31,9 @@ class SinglResponseHelper(tgbParam: TelegramLongPollingBot) : ResponseHelper(tgb
         responseMessage.enableMarkdown(true)
         // добавляем 4 кнопки
         responseMessage.replyMarkup = getReplyMarkup(
-            listOf(
-                listOf("СПААААМ")
+                listOf("/fight")
                 //  listOf("Кнопка 1", "Кнопка 2"),
                 //  listOf("Кнопка 3", "Кнопка 4")
-            )
         )
         tgbParam.execute(responseMessage)
     }
@@ -57,11 +55,9 @@ class SinglResponseHelper(tgbParam: TelegramLongPollingBot) : ResponseHelper(tgb
         responseMessage.enableMarkdown(true)
         // добавляем 4 кнопки
         responseMessage.replyMarkup = getReplyMarkup(
-            listOf(
-                listOf("СПААААМ")
-                //  listOf("Кнопка 1", "Кнопка 2"),
-                //  listOf("Кнопка 3", "Кнопка 4")
-            )
+            listOf("/fight")
+            //  listOf("Кнопка 1", "Кнопка 2"),
+            //  listOf("Кнопка 3", "Кнопка 4")
         )
         responseMessage.replyToMessageId = replyId
         tgbParam.execute(responseMessage)
@@ -72,11 +68,9 @@ class SinglResponseHelper(tgbParam: TelegramLongPollingBot) : ResponseHelper(tgb
         val doc = SendDocument(chatId.toString(), input)
         // добавляем 4 кнопки
         doc.replyMarkup = getReplyMarkup(
-            listOf(
-                listOf("СПААААМ")
+                listOf("/fight")
                 //  listOf("Кнопка 1", "Кнопка 2"),
                 //  listOf("Кнопка 3", "Кнопка 4")
-            )
         )
         tgbParam.execute(doc)
     }

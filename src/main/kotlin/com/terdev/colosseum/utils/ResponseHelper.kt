@@ -3,8 +3,10 @@ package com.terdev.colosseum.utils
 import org.telegram.telegrambots.bots.TelegramLongPollingBot
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardMarkup
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardRemove
+import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.KeyboardButton
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.KeyboardRow
 import java.io.File
+import java.util.Arrays.asList
 
 abstract class ResponseHelper(val tgbParam: TelegramLongPollingBot) {
 
@@ -22,13 +24,18 @@ abstract class ResponseHelper(val tgbParam: TelegramLongPollingBot) {
         return markup
     }
 
-    fun getReplyMarkup(allButtons: List<List<String>>): ReplyKeyboardMarkup {
+    fun getReplyMarkup(allButtons: List<String>): ReplyKeyboardMarkup {
         val markup = ReplyKeyboardMarkup()
-        markup.keyboard = allButtons.map { rowButtons ->
-            val row = KeyboardRow()
-            rowButtons.forEach { rowButton -> row.add(rowButton) }
-            row
+        val row = KeyboardRow()
+        allButtons.map { rowButtons ->
+            row.add(rowButtons)
         }
+        markup.keyboard = asList(row)
+        markup.resizeKeyboard = true
         return markup
+    }
+
+    fun getReplyButton(button: String) : KeyboardButton {
+        return KeyboardButton(button)
     }
 }
