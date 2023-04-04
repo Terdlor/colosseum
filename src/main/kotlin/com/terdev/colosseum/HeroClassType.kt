@@ -2,13 +2,13 @@ package com.example.terdlor_first_bot.collosseum
 
 enum class HeroClassType(var classType: String, var isPureClass: Boolean = false) {
 
-    BARBARIAN("ВАРВАР",true),
-    PALADIN("ПАЛАДИН"),
-    WARRIOR("ВОИН"),
-    ASSASSIN("АСАССИН",true),
-    MONK("МОНАХ"),
-    ROGUE("РАЗБОЙНИК"),
-    MAGE("МАГ",true),
-    WARLOCK("ВАРЛОК"),
-    DRUID("ДРУИД")
+    BARBARIAN("Варвар",true),
+    PALADIN("Паладин"),
+    WARRIOR("Воин"),
+    ASSASSIN("Асассин",true),
+    MONK("Монах"),
+    ROGUE("Разбойник"),
+    MAGE("Маг",true),
+    WARLOCK("Варлок"),
+    DRUID("Друид")
 }

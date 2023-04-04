@@ -12,46 +12,61 @@ class BattleCycle {
 
     fun runBattle() : String {
         val result = StringBuilder()
-        result.appendLine("Могучие герои призваны на поле битвы!" +
-                "\n\nВЫ:" +
-                "\n$playerA" +
-                "\nВРАГ:" +
-                "\n$playerB")
+        val playerAShorthand = "${playerA.name} [${playerA.classType.classType} ${playerA.level} уровня]"
+        val playerBShorthand = "${playerB.name} [${playerB.classType.classType} ${playerB.level} уровня]"
+        
+        result.appendLine(
+                "Могучие герои призваны на поле битвы!" +
+                        "\n\n[Я] $playerAShorthand" +
+                        "\nЗДОР: ${playerA.health} / ${playerA.healthMax}   УРОН: ${playerA.damageMin} - ${playerA.damageMax}" +
+                        "\nКРИТ: ${playerA.criticalChance}%   ЗАЩИТА: ${playerA.defence}%   УВОРОТ: ${playerA.dodge}%" +
+                        "\n\n[ВРАГ] $playerBShorthand" +
+                        "\nЗДОР: ${playerB.health} / ${playerB.healthMax}   УРОН: ${playerB.damageMin} - ${playerB.damageMax}" +
+                        "\nКРИТ: ${playerB.criticalChance}%   ЗАЩИТА: ${playerB.defence}%   УВОРОТ: ${playerB.dodge}%"
+        )
 
         while (!battleComplete) {
             if (turn % 2 != 0) {
+                result.appendLine("\n[ХОД $turn]\n")
                 // Нечетные ходы совершает playerA
                 if (!Randomizer().getChanceRoll(playerB.dodge)) {
                     damage = Randomizer().getRandomFromRange(playerA.damageMin, playerA.damageMax)
                     damage -= round(((damage / 100) * playerB.defence).toDouble()).toInt()
                     if (Randomizer().getChanceRoll(playerA.criticalChance)) {
                         damage *= 2
-                        result.appendLine("[ КРИТИЧЕСКИЙ УДАР! ]")
+                        result.appendLine("[Я] [КРИТИЧЕСКИЙ УДАР!] $playerAShorthand нанес $damage урона врагу!")
+                    }
+                    else {
+                        result.appendLine("[Я] $playerAShorthand нанес $damage урона врагу.")
                     }
                     playerB.health -= damage
-                    result.appendLine("[ВЫ] ${playerA.name} нанес $damage урона врагу.")
+                    result.appendLine("[ВРАГ] $playerBShorthand \nЗДОРОВЬЕ: ${playerB.health} / ${playerB.healthMax}.")
                 }
                 else {
-                    result.appendLine("[ВРАГ] ${playerB.name} увернулся от атаки!")
+                    result.appendLine("[ВРАГ] $playerBShorthand увернулся от атаки! " +
+                            "\nЗДОРОВЬЕ: ${playerB.health} / ${playerB.healthMax}.")
                 }
-                result.appendLine("[ВРАГ] ${playerB.name} ЗДОРОВЬЕ: ${playerB.health} / ${playerB.healthMax}.")
             }
             else {
+                result.appendLine("\n[ХОД $turn]\n")
                 // Нечетные ходы совершает playerB
                 if (!Randomizer().getChanceRoll(playerA.dodge)) {
                     damage = Randomizer().getRandomFromRange(playerB.damageMin, playerB.damageMax)
                     damage -= round(((damage / 100) * playerA.defence).toDouble()).toInt()
                     if (Randomizer().getChanceRoll(playerB.criticalChance)) {
                         damage *= 2
-                        result.appendLine("[ КРИТИЧЕСКИЙ УДАР! ]")
+                        result.appendLine("[ВРАГ] [КРИТИЧЕСКИЙ УДАР!] $playerBShorthand нанес $damage урона герою!")
+                    }
+                    else {
+                        result.appendLine("[ВРАГ] $playerBShorthand нанес $damage урона герою.")
                     }
                     playerA.health -= damage
-                    result.appendLine("[ВРАГ] ${playerB.name} нанес $damage урона врагу.")
+                    result.appendLine("[Я] $playerAShorthand \nЗДОРОВЬЕ: ${playerA.health} / ${playerA.healthMax}.")
                 }
                 else {
-                    result.appendLine("[ВЫ] ${playerA.name} увернулся от атаки!")
+                    result.appendLine("[Я] $playerAShorthand увернулся от атаки! " +
+                            "\nЗДОРОВЬЕ: ${playerA.health} / ${playerA.healthMax}.")
                 }
-                result.appendLine("[ВЫ] ${playerA.name} ЗДОРОВЬЕ: ${playerA.health} / ${playerA.healthMax}.")
             }
 
             if (playerA.health <= 0) {
@@ -62,10 +77,10 @@ class BattleCycle {
                 else {
                     playerB.health += heal
                 }
-                result.appendLine("[ВЫ потерпел поражение в битве с ИГРОКОМ 2]" +
-                        "\n[ВЫ] ${playerA.name} [${playerA.classType}] ${playerA.level} уровня пал в битве!" +
-                        "\n[ВРАГ] ${playerB.name} отдыхает и восстанавливает $heal здоровья." +
-                        "\n[ВРАГ] ${playerB.name} ЗДОРОВЬЕ: ${playerB.health} / ${playerB.healthMax}.")
+                result.appendLine("\n[ПОРАЖЕНИЕ!]\n" +
+                        "\n[Я] $playerAShorthand пал в битве!" +
+                        "\n\n[ВРАГ] $playerBShorthand отдохнул и восстановил $heal здоровья." +
+                        "\n[ВРАГ] $playerBShorthand \nЗДОРОВЬЕ: ${playerB.health} / ${playerB.healthMax}.")
                 battleComplete = true
             }
 
@@ -77,10 +92,10 @@ class BattleCycle {
                 else {
                     playerA.health += heal
                 }
-                result.appendLine("[ВРАГ потерпел поражение в битве с ИГРОКОМ 1]" +
-                        "\n[ВРАГ] ${playerB.name} [${playerB.classType}] ${playerB.level} уровня пал в битве!" +
-                        "\n[ВЫ] ${playerA.name} отдыхает и восстанавливает $heal здоровья." +
-                        "\n[ВЫ] ${playerA.name} ЗДОРОВЬЕ: ${playerA.health} / ${playerA.healthMax}.")
+                result.appendLine("\n[ПОБЕДА!]\n" +
+                        "\n[ВРАГ] $playerBShorthand уровня пал в битве!" +
+                        "\n\n[Я] $playerAShorthand отдохнул и восстановил $heal здоровья." +
+                        "\n[Я] $playerAShorthand \nЗДОРОВЬЕ: ${playerA.health} / ${playerA.healthMax}.")
                 battleComplete = true
             }
 
