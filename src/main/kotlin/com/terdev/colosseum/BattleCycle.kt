@@ -80,7 +80,7 @@ class BattleCycle {
                 result.appendLine("\n[ПОРАЖЕНИЕ!]\n" +
                         "\n[Я] $playerAShorthand пал в битве!" +
                         "\n\n[ВРАГ] $playerBShorthand отдохнул и восстановил $heal здоровья." +
-                        "\n[ВРАГ] $playerBShorthand \nЗДОРОВЬЕ: ${playerB.health} / ${playerB.healthMax}.")
+                        "\nЗДОРОВЬЕ: ${playerB.health} / ${playerB.healthMax}.")
                 battleComplete = true
             }
 
@@ -95,7 +95,7 @@ class BattleCycle {
                 result.appendLine("\n[ПОБЕДА!]\n" +
                         "\n[ВРАГ] $playerBShorthand уровня пал в битве!" +
                         "\n\n[Я] $playerAShorthand отдохнул и восстановил $heal здоровья." +
-                        "\n[Я] $playerAShorthand \nЗДОРОВЬЕ: ${playerA.health} / ${playerA.healthMax}.")
+                        "\nЗДОРОВЬЕ: ${playerA.health} / ${playerA.healthMax}.")
                 battleComplete = true
             }
 

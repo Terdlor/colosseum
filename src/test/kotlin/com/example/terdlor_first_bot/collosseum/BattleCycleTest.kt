@@ -13,6 +13,12 @@ internal class BattleCycleTest {
     private val playerB: Hero = HeroBuilder.getHero(Randomizer().getRandomFromRange(7, 9), HeroClassType.values().random())
 
     @Test
+    fun getJavaVersion() {
+        val version = System.getProperty("java.version")
+        System.out.println("Java Version: $version")
+    }
+
+    @Test
     fun runBattle() {
         println("\nМогучие герои призваны на поле битвы!\n" +
                 "\nИГРОК 1:" +
