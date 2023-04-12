@@ -6,7 +6,7 @@ import org.telegram.telegrambots.meta.api.methods.send.SendMessage
 import org.telegram.telegrambots.meta.api.objects.InputFile
 import java.io.File
 
-class SinglResponseHelper(tgbParam: TelegramLongPollingBot) : ResponseHelper(tgbParam) {
+class SingleResponseHelper(tgbParam: TelegramLongPollingBot) : ResponseHelper(tgbParam) {
 
     override fun sendSimpleNotification(chatId: Long, responseText: String) {
         sendSimpleNotification(chatId, responseText, 0)
@@ -17,10 +17,10 @@ class SinglResponseHelper(tgbParam: TelegramLongPollingBot) : ResponseHelper(tgb
             "сообщение больше 4098 символов, слать не умею"
         } else {
             responseText
-                .replace("_", "\\_")
-                .replace("*", "\\*")
-                .replace("[", "\\[")
-                .replace("`", "\\`")
+                    .replace("_", "\\_")
+                    .replace("*", "\\*")
+                    .replace("[", "\\[")
+                    .replace("`", "\\`")
         }
         val massage: String = if (num != 0) {
             "$num - $out"
@@ -44,10 +44,10 @@ class SinglResponseHelper(tgbParam: TelegramLongPollingBot) : ResponseHelper(tgb
             "сообщение больше 4098 символов, слать не умею"
         } else {
             responseText
-                .replace("_", "\\_")
-                .replace("*", "\\*")
-                .replace("[", "\\[")
-                .replace("`", "\\`")
+                    .replace("_", "\\_")
+                    .replace("*", "\\*")
+                    .replace("[", "\\[")
+                    .replace("`", "\\`")
         }
         val massage: String = out
 
@@ -55,9 +55,9 @@ class SinglResponseHelper(tgbParam: TelegramLongPollingBot) : ResponseHelper(tgb
         responseMessage.enableMarkdown(true)
         // добавляем 4 кнопки
         responseMessage.replyMarkup = getReplyMarkup(
-            listOf("/fight")
-            //  listOf("Кнопка 1", "Кнопка 2"),
-            //  listOf("Кнопка 3", "Кнопка 4")
+                listOf("/fight")
+                //  listOf("Кнопка 1", "Кнопка 2"),
+                //  listOf("Кнопка 3", "Кнопка 4")
         )
         responseMessage.replyToMessageId = replyId
         tgbParam.execute(responseMessage)

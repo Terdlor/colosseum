@@ -1,9 +1,8 @@
 package com.terdev.colosseum.common
 
-import com.terdev.colosseum.BotApp
-import com.terdev.colosseum.bd.DatabaseHelper
 import com.terdev.colosseum.utils.*
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.core.env.Environment
 import org.telegram.telegrambots.meta.api.objects.Message
 import java.io.File
 
@@ -11,7 +10,10 @@ import java.io.File
 abstract class Work {
 
     @Autowired
-    lateinit var rsSH: SinglResponseHelper
+    private lateinit var env: Environment
+
+    @Autowired
+    lateinit var rsSH: SingleResponseHelper
 
     @Autowired
     lateinit var rsGH: GroupResponseHelper
@@ -25,21 +27,19 @@ abstract class Work {
     abstract var command: String
     abstract var commandDesc: String
 
-    abstract fun checkWork(msg: Message, msgBd: com.terdev.colosseum.bd.system.model.Message): Boolean
+    abstract fun checkWork(msg: Message): Boolean
 
-    fun work(msg: Message, msgBd: com.terdev.colosseum.bd.system.model.Message): Boolean {
+    fun work(msg: Message): Boolean {
         try {
-            return checkWork(msg, msgBd)
+            return checkWork(msg)
         } catch (ex: Exception) {
             return if (ex is TextException) {
                 println("Нормальная ошибка - " + ex.msg)
-                log.saveLog(ex.msg, "НОРМ_ОШИБКА-" + DatabaseHelper.getUserDao().findById(msg.from.id)?.userName!!)
                 sendNotification(msg.chat.id, ex.msg)
                 true
             } else {
                 val str = Печататель().дайException(ex)
                 println(str)
-                log.saveLog(str, "ОШИБКА-" + DatabaseHelper.getUserDao().findById(msg.from.id)?.userName!!)
                 sendNotification(msg.chat.id, str, msg.messageId)
                 false
             }
@@ -49,7 +49,7 @@ abstract class Work {
     fun getParam(msg: String?): String {
         if (msg == null)
             return ""
-        return msg.substringAfter("/$command@" + BotApp.foo).trim().substringAfter("/$command").trim()
+        return msg.substringAfter("/$command@" + env.getProperty("telegram.botName")).trim().substringAfter("/$command").trim()
     }
 
     fun sendReplyNotification(id: Long, msg: String, replyId: Int) {

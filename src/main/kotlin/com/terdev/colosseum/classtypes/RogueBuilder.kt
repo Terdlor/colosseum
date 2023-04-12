@@ -23,14 +23,15 @@ class RogueBuilder : HeroBuilder() {
 
     private companion object {
         val isVariant = Random().nextBoolean()
-        fun getHeroNameA() : Array<String> {
+        fun getHeroNameA(): Array<String> {
             if (isVariant) {
                 return arrayOf("Й", "И", "О", "У", "Гии", "Лу", "Э", "Ле", "Ми", "Де", "Са", "Би")
             } else {
                 return arrayOf("Ф", "Б", "В", "М", "З", "Г", "Др", "Мл", "Д")
             }
         }
-        fun getHeroNameC() : Array<String> {
+
+        fun getHeroNameC(): Array<String> {
             if (isVariant) {
                 return arrayOf("сс", "вв", "нкф", "ртм", "мд", "ндж", "льв", "ртк", "ндрв", "ндрф", "рр")
             } else {

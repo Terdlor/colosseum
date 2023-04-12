@@ -38,13 +38,11 @@ internal class BattleCycleTest {
                     }
                     playerB.health -= damage
                     println("[ИГРОК 1] ${playerA.name} нанес $damage урона врагу.")
-                }
-                else {
+                } else {
                     println("[ИГРОК 2] ${playerB.name} увернулся от атаки!")
                 }
                 println("[ИГРОК 2] ${playerB.name} ЗДОРОВЬЕ: ${playerB.health} / ${playerB.healthMax}.")
-            }
-            else {
+            } else {
                 // Нечетные ходы совершает playerB
                 if (!Randomizer().getChanceRoll(playerA.dodge)) {
                     damage = Randomizer().getRandomFromRange(playerB.damageMin, playerB.damageMax)
@@ -55,8 +53,7 @@ internal class BattleCycleTest {
                     }
                     playerA.health -= damage
                     println("[ИГРОК 2] ${playerB.name} нанес $damage урона врагу.")
-                }
-                else {
+                } else {
                     println("[ИГРОК 1] ${playerA.name} увернулся от атаки!")
                 }
                 println("[ИГРОК 1] ${playerA.name} ЗДОРОВЬЕ: ${playerA.health} / ${playerA.healthMax}.")
@@ -66,8 +63,7 @@ internal class BattleCycleTest {
                 heal = Randomizer().getRandomFromRange(playerB.level * 15, playerB.healthMax)
                 if (playerB.health + heal > playerB.healthMax) {
                     playerB.health = playerB.healthMax
-                }
-                else {
+                } else {
                     playerB.health += heal
                 }
                 println("[ИГРОК 1 потерпел поражение в битве с ИГРОКОМ 2]" +
@@ -81,8 +77,7 @@ internal class BattleCycleTest {
                 heal = Randomizer().getRandomFromRange(playerA.level * 15, playerA.healthMax)
                 if (playerA.health + heal > playerA.healthMax) {
                     playerA.health = playerA.healthMax
-                }
-                else {
+                } else {
                     playerA.health += heal
                 }
                 println("[ИГРОК 2 потерпел поражение в битве с ИГРОКОМ 1]" +
@@ -92,7 +87,7 @@ internal class BattleCycleTest {
                 battleComplete = true
             }
 
-            turn ++
+            turn++
         }
     }
 }

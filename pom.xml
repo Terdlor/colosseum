@@ -23,16 +23,19 @@
 			<artifactId>spring-boot-starter-web</artifactId>
 			<version>2.6.11</version>
 		</dependency>
+
 		<dependency>
 			<groupId>com.fasterxml.jackson.module</groupId>
 			<artifactId>jackson-module-kotlin</artifactId>
 			<version>2.13.3</version>
 		</dependency>
+
 		<dependency>
 			<groupId>org.jetbrains.kotlin</groupId>
 			<artifactId>kotlin-reflect</artifactId>
 			<version>${kotlin.version}</version>
 		</dependency>
+
 		<dependency>
 			<groupId>org.jetbrains.kotlin</groupId>
 			<artifactId>kotlin-stdlib-jdk8</artifactId>
@@ -50,35 +53,29 @@
 			<version>5.4.0.1</version>
 		</dependency>
 
-
-		<dependency>
-			<groupId>com.h2database</groupId>
-			<artifactId>h2</artifactId>
-			<version>1.4.200</version><!--TODO перейти на 2.1.214-->
-			<scope>runtime</scope>
-		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
 			<version>2.6.11</version>
 			<scope>test</scope>
 		</dependency>
+
 		<dependency>
-			<groupId>org.springframework.statemachine</groupId>
-			<artifactId>spring-statemachine-core</artifactId>
-			<version>3.1.0</version>
+			<groupId>org.postgresql</groupId>
+			<artifactId>postgresql</artifactId>
+			<version>42.5.4</version>
 		</dependency>
 
 		<dependency>
-			<groupId>com.j256.ormlite</groupId>
-			<artifactId>ormlite-core</artifactId>
-			<version>6.1</version>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-data-jpa</artifactId>
 		</dependency>
+
 		<dependency>
-			<groupId>com.j256.ormlite</groupId>
-			<artifactId>ormlite-jdbc</artifactId>
-			<version>6.1</version>
+			<groupId>com.zaxxer</groupId>
+			<artifactId>HikariCP</artifactId>
 		</dependency>
+
 		<dependency>
 			<groupId>com.google.code.gson</groupId>
 			<artifactId>gson</artifactId>
@@ -91,6 +88,7 @@
 			<version>4.13.2</version>
 			<scope>test</scope>
 		</dependency>
+
 		<dependency>
 			<groupId>log4j</groupId>
 			<artifactId>log4j</artifactId>

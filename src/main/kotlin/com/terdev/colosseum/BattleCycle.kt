@@ -10,11 +10,11 @@ class BattleCycle {
     private val playerA: Hero = HeroBuilder.getHero(Randomizer().getRandomFromRange(9, 10), HeroClassType.values().random())
     private val playerB: Hero = HeroBuilder.getHero(Randomizer().getRandomFromRange(8, 10), HeroClassType.values().random())
 
-    fun runBattle() : String {
+    fun runBattle(): String {
         val result = StringBuilder()
         val playerAShorthand = "${playerA.name} [${playerA.classType.classType} ${playerA.level} уровня]"
         val playerBShorthand = "${playerB.name} [${playerB.classType.classType} ${playerB.level} уровня]"
-        
+
         result.appendLine(
                 "Могучие герои призваны на поле битвы!" +
                         "\n\n[Я] $playerAShorthand" +
@@ -35,19 +35,16 @@ class BattleCycle {
                     if (Randomizer().getChanceRoll(playerA.criticalChance)) {
                         damage *= 2
                         result.appendLine("[Я] [КРИТИЧЕСКИЙ УДАР!] $playerAShorthand нанес $damage урона врагу!")
-                    }
-                    else {
+                    } else {
                         result.appendLine("[Я] $playerAShorthand нанес $damage урона врагу.")
                     }
                     playerB.health -= damage
                     result.appendLine("[ВРАГ] $playerBShorthand \nЗДОРОВЬЕ: ${playerB.health} / ${playerB.healthMax}.")
-                }
-                else {
+                } else {
                     result.appendLine("[ВРАГ] $playerBShorthand увернулся от атаки! " +
                             "\nЗДОРОВЬЕ: ${playerB.health} / ${playerB.healthMax}.")
                 }
-            }
-            else {
+            } else {
                 result.appendLine("\n[ХОД $turn]\n")
                 // Нечетные ходы совершает playerB
                 if (!Randomizer().getChanceRoll(playerA.dodge)) {
@@ -56,14 +53,12 @@ class BattleCycle {
                     if (Randomizer().getChanceRoll(playerB.criticalChance)) {
                         damage *= 2
                         result.appendLine("[ВРАГ] [КРИТИЧЕСКИЙ УДАР!] $playerBShorthand нанес $damage урона герою!")
-                    }
-                    else {
+                    } else {
                         result.appendLine("[ВРАГ] $playerBShorthand нанес $damage урона герою.")
                     }
                     playerA.health -= damage
                     result.appendLine("[Я] $playerAShorthand \nЗДОРОВЬЕ: ${playerA.health} / ${playerA.healthMax}.")
-                }
-                else {
+                } else {
                     result.appendLine("[Я] $playerAShorthand увернулся от атаки! " +
                             "\nЗДОРОВЬЕ: ${playerA.health} / ${playerA.healthMax}.")
                 }
@@ -73,8 +68,7 @@ class BattleCycle {
                 heal = Randomizer().getRandomFromRange(playerB.level * 15, playerB.healthMax)
                 if (playerB.health + heal > playerB.healthMax) {
                     playerB.health = playerB.healthMax
-                }
-                else {
+                } else {
                     playerB.health += heal
                 }
                 result.appendLine("\n[ПОРАЖЕНИЕ!]\n" +
@@ -88,8 +82,7 @@ class BattleCycle {
                 heal = Randomizer().getRandomFromRange(playerA.level * 15, playerA.healthMax)
                 if (playerA.health + heal > playerA.healthMax) {
                     playerA.health = playerA.healthMax
-                }
-                else {
+                } else {
                     playerA.health += heal
                 }
                 result.appendLine("\n[ПОБЕДА!]\n" +
@@ -99,7 +92,7 @@ class BattleCycle {
                 battleComplete = true
             }
 
-            turn ++
+            turn++
         }
 
         return result.toString()

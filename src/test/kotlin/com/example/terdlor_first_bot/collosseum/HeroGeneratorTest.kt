@@ -1,7 +1,5 @@
 package com.example.terdlor_first_bot.collosseum
 
-import org.junit.Test
-
 //HeroGenerator
 class HeroGeneratorTest {
 

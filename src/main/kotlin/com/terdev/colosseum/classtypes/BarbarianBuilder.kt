@@ -21,11 +21,10 @@ class BarbarianBuilder : HeroBuilder() {
         int = level * tertiaryAttributeModifier
     }
 
-    private fun getNameSyllableCount() : Int {
+    private fun getNameSyllableCount(): Int {
         if (Randomizer().getChanceRoll(15)) {
             return 1
-        }
-        else {
+        } else {
             return 2
         }
     }

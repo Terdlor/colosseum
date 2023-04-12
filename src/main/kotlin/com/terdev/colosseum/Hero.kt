@@ -22,7 +22,7 @@ class Hero(val classType: HeroClassType) {
     var battlesWon = 0
 
     override fun toString(): String {
-        return  "[ $classType ] $name" +
+        return "[ $classType ] $name" +
                 "\nУРОВЕНЬ: $level" +
                 "\nЗДОР: $health из $healthMax" +
                 "\nУРОН: $damageMin - $damageMax" +

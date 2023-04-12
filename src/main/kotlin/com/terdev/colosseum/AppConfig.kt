@@ -5,7 +5,7 @@ import com.terdev.colosseum.common.DocumentWork
 import com.terdev.colosseum.utils.GroupResponseHelper
 import com.terdev.colosseum.utils.LogHelper
 import com.terdev.colosseum.utils.RequestHelper
-import com.terdev.colosseum.utils.SinglResponseHelper
+import com.terdev.colosseum.utils.SingleResponseHelper
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.web.embedded.tomcat.TomcatServletWebServerFactory
 import org.springframework.boot.web.servlet.server.ServletWebServerFactory
@@ -22,8 +22,8 @@ class AppConfig {
     }
 
     @Bean
-    fun getSinglResponseHelperBean(@Autowired tgbParam: TelegramLongPollingBot): SinglResponseHelper {
-        return SinglResponseHelper(tgbParam)
+    fun getSingleResponseHelperBean(@Autowired tgbParam: TelegramLongPollingBot): SingleResponseHelper {
+        return SingleResponseHelper(tgbParam)
     }
 
     @Bean

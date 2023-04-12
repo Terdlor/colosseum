@@ -24,7 +24,7 @@ abstract class HeroBuilder {
     protected abstract fun setMainAttributes()
 
     //TODO: вынести цифры в параметр БД
-    private fun getHeroLuck() : Int {
+    private fun getHeroLuck(): Int {
         return when (Randomizer().getPercentage()) {
             in 1..5 -> 4
             in 6..20 -> 3
@@ -45,7 +45,7 @@ abstract class HeroBuilder {
         }
     }
 
-    fun getHero(level: Int) : Hero {
+    fun getHero(level: Int): Hero {
         this.level = level
         setMainAttributes()
         getAttributeModifier()
@@ -64,8 +64,7 @@ abstract class HeroBuilder {
         val hero = Hero(classType)
         if (luck == 4) {
             hero.name = getHeroName() + luckyName.random()
-        }
-        else {
+        } else {
             hero.name = getHeroName()
         }
         hero.level = level
@@ -84,7 +83,7 @@ abstract class HeroBuilder {
         return hero
     }
 
-    protected open fun getHeroName() : String {
+    protected open fun getHeroName(): String {
         return when (heroNameSyllables) {
             1 -> heroNameA.random()
             2 -> heroNameA.random() + heroNameC.random()
@@ -108,7 +107,7 @@ abstract class HeroBuilder {
             }
         }
 
-        fun getHero(level: Int, classType: HeroClassType) : Hero {
+        fun getHero(level: Int, classType: HeroClassType): Hero {
             return when (classType) {
                 HeroClassType.BARBARIAN -> BarbarianBuilder().getHero(level)
                 HeroClassType.PALADIN -> PaladinBuilder().getHero(level)

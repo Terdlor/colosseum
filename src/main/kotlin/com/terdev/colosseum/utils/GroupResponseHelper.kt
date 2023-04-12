@@ -17,10 +17,10 @@ class GroupResponseHelper(tgbParam: TelegramLongPollingBot) : ResponseHelper(tgb
             "сообщение больше 4098 символов, слать не умею"
         } else {
             responseText
-                .replace("_", "\\_")
-                .replace("*", "\\*")
-                .replace("[", "\\[")
-                .replace("`", "\\`")
+                    .replace("_", "\\_")
+                    .replace("*", "\\*")
+                    .replace("[", "\\[")
+                    .replace("`", "\\`")
         }
         val massage: String = if (num != 0) {
             "$num - $out"
@@ -39,10 +39,10 @@ class GroupResponseHelper(tgbParam: TelegramLongPollingBot) : ResponseHelper(tgb
             "сообщение больше 4098 символов, слать не умею"
         } else {
             responseText
-                .replace("_", "\\_")
-                .replace("*", "\\*")
-                .replace("[", "\\[")
-                .replace("`", "\\`")
+                    .replace("_", "\\_")
+                    .replace("*", "\\*")
+                    .replace("[", "\\[")
+                    .replace("`", "\\`")
         }
         val massage: String = out
 

@@ -2,23 +2,17 @@ telegram:
   botName: ***
   token: ***
 spring:
-  h2:
-    console:
-      enabled: true
-      path: /gadget-console
-      settings:
-        trace: false
-        web-allow-others: false
   datasource:
-    url: jdbc:h2:file:./data/colosseumDb
-    username: sa
-    password: 111
-  jpa:
-    show-sql: true
-    properties:
-      hibernate:
-        dialect: org.hibernate.dialect.H2Dialect
-        use_sql_comments: true
-        format_sql: true
+    hikari:
+      maximum-pool-size: 10
+      connection-test-query: select 1
+      connection-timeout: 1000
+      minimum-idle: 10
+      idle-timeout: 600000
+      max-lifetime: 180000
+      driver-class-name: org.postgresql.Driver
+      jdbc-url: ***
+      username: ***
+      password: ***
 server:
   port: 8092

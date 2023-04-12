@@ -35,7 +35,7 @@ abstract class ResponseHelper(val tgbParam: TelegramLongPollingBot) {
         return markup
     }
 
-    fun getReplyButton(button: String) : KeyboardButton {
+    fun getReplyButton(button: String): KeyboardButton {
         return KeyboardButton(button)
     }
 }

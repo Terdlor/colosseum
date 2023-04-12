@@ -7,7 +7,7 @@ internal class HeroBuilderTest {
     @Test
     fun getHeroName() {
         HeroClassType.values().forEach {
-          println(HeroBuilder.getHeroName(it))
+            println(HeroBuilder.getHeroName(it))
         }
 
         for (i in 1..100) {
