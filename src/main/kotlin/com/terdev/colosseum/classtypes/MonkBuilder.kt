@@ -1,7 +1,7 @@
-package com.example.terdlor_first_bot.collosseum.classtypes
+package com.terdev.colosseum.classtypes
 
-import com.example.terdlor_first_bot.collosseum.HeroBuilder
-import com.example.terdlor_first_bot.collosseum.HeroClassType
+import com.terdev.colosseum.HeroBuilder
+import com.terdev.colosseum.HeroClassType
 
 class MonkBuilder : HeroBuilder() {
     override val classType = HeroClassType.MONK

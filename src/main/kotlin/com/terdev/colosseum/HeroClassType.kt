@@ -1,4 +1,4 @@
-package com.example.terdlor_first_bot.collosseum
+package com.terdev.colosseum
 
 enum class HeroClassType(var classType: String, var isPureClass: Boolean = false) {
 

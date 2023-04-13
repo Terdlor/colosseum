@@ -1,6 +1,6 @@
-package com.example.terdlor_first_bot.collosseum
+package com.terdev.colosseum
 
-import com.example.terdlor_first_bot.collosseum.classtypes.*
+import com.terdev.colosseum.classtypes.*
 import java.util.*
 
 abstract class HeroBuilder {

@@ -4,15 +4,15 @@ drop table if exists users;
 
 create table users
 (
-    id              serial       not null,
-    uuid            uuid         not null default gen_random_uuid() primary key,
-    telegram_id     numeric      not null,
+    id              serial         not null,
+    uuid            uuid           not null default gen_random_uuid() primary key,
+    telegram_id     numeric unique not null,
     telegram_handle varchar(255),
-    is_bot          boolean      not null,
+    is_bot          boolean        not null,
     first_name      varchar(255),
     last_name       varchar(255),
-    insert_date     timestamp(6)          default now(),
-    battle_state    varchar(100) not null default 'FREE'
+    insert_date     timestamp(6)            default now(),
+    battle_state    varchar(100)   not null default 'FREE'
 );
 create unique index users_id_uindex on users (id);
 create unique index users_uuid_uindex on users (uuid);
@@ -25,7 +25,7 @@ create table heroes
     user_uuid    uuid         not null,
     is_alive     boolean      not null default true,
     name         varchar(255) not null,
-    class        varchar(255) not null,
+    class_type   varchar(255) not null,
     level        numeric(2)   not null,
     experience   numeric      not null,
     strength     numeric(5)   not null,
@@ -45,4 +45,7 @@ create table heroes
 create unique index heroes_id_uindex on heroes (id);
 create unique index heroes_uuid_uindex on heroes (uuid);
 
-select * from users
+select *
+from users;
+select *
+from heroes;

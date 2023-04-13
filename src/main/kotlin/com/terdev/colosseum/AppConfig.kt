@@ -2,6 +2,7 @@ package com.terdev.colosseum
 
 import com.terdev.colosseum.common.CommandWork
 import com.terdev.colosseum.common.DocumentWork
+import com.terdev.colosseum.common.ForwardWork
 import com.terdev.colosseum.utils.GroupResponseHelper
 import com.terdev.colosseum.utils.LogHelper
 import com.terdev.colosseum.utils.RequestHelper
@@ -43,6 +44,9 @@ class AppConfig {
 
     @Bean("commandWorkers")
     fun getCommandWorkers(@Autowired commandWorkers: List<CommandWork>) = commandWorkers
+
+    @Bean("forwardWorkers")
+    fun getForwardWorkers(@Autowired forwardWorkers: List<ForwardWork>) = forwardWorkers
 
     @Bean("documentWorkers")
     fun getDocumentWorkers(@Autowired documentWork: List<DocumentWork>) = documentWork

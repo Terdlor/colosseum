@@ -1,4 +1,4 @@
-package com.example.terdlor_first_bot.collosseum
+package com.terdev.colosseum
 
 class Hero(val classType: HeroClassType) {
 
@@ -7,7 +7,6 @@ class Hero(val classType: HeroClassType) {
     var name = ""
     var level = 1
     var experience = 0
-    var unspentPoints = 0
     var strength = 1
     var dexterity = 1
     var intelligence = 1

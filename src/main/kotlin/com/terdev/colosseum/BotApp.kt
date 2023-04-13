@@ -1,6 +1,7 @@
 package com.terdev.colosseum
 
 import com.terdev.colosseum.common.CommandWork
+import com.terdev.colosseum.common.ForwardWork
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.context.ApplicationContext
@@ -33,6 +34,13 @@ class BotApp : TelegramLongPollingBot() {
         if (commandWorkers is List<*>) {
             for (commandWork in commandWorkers) {
                 if (commandWork is CommandWork && commandWork.work(update.message)) return
+            }
+        }
+
+        val forwardWorkers = context.getBean("forwardWorkers")
+        if (forwardWorkers is List<*>) {
+            for (forwardWork in forwardWorkers) {
+                if (forwardWork is ForwardWork && forwardWork.work(update.message)) return
             }
         }
     }

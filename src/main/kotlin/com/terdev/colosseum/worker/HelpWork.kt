@@ -12,7 +12,7 @@ import org.telegram.telegrambots.meta.api.objects.Message
 import org.telegram.telegrambots.meta.api.objects.MessageEntity
 import java.io.File
 
-@Component("helpWork")
+@Component
 class HelpWork {
 
     @Autowired

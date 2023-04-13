@@ -47,5 +47,4 @@ class JpaConfig {
 
     @Bean
     fun dataSource() = HikariDataSource(hikariConfig())
-
 }

@@ -1,5 +1,6 @@
 package com.terdev.colosseum.jpa.entity
 
+import com.fasterxml.jackson.annotation.JsonIgnore
 import java.util.*
 import javax.persistence.*
 
@@ -47,4 +48,7 @@ class User {
 
     @Column(name = BATTLE_STATE, nullable = false)
     var battleState: String? = "FREE"
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "userUuid", cascade = arrayOf(CascadeType.ALL))
+    var heroes: List<Hero>? = null
 }

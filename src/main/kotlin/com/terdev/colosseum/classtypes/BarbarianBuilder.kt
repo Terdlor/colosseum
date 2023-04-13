@@ -1,8 +1,8 @@
-package com.example.terdlor_first_bot.collosseum.classtypes
+package com.terdev.colosseum.classtypes
 
-import com.example.terdlor_first_bot.collosseum.HeroBuilder
-import com.example.terdlor_first_bot.collosseum.HeroClassType
-import com.example.terdlor_first_bot.collosseum.Randomizer
+import com.terdev.colosseum.HeroBuilder
+import com.terdev.colosseum.HeroClassType
+import com.terdev.colosseum.Randomizer
 
 class BarbarianBuilder : HeroBuilder() {
     override val classType = HeroClassType.BARBARIAN

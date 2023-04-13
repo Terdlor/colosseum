@@ -1,9 +1,9 @@
 package com.terdev.colosseum.jpa.dao
 
+import com.terdev.colosseum.jpa.entity.Hero
 import com.terdev.colosseum.jpa.entity.User
 import org.springframework.data.jpa.repository.JpaRepository
 
-interface UserRepository : JpaRepository<User, String> {
+interface HeroRepository : JpaRepository<Hero, String> {
 
-    fun countByTelegramId(telegramId: Long) : Long
 }

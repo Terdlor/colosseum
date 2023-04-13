@@ -1,4 +1,4 @@
-package com.example.terdlor_first_bot.collosseum
+package com.terdev.colosseum
 
 import org.junit.Test
 import kotlin.math.round

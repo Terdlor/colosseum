@@ -1,5 +1,8 @@
 package com.example.terdlor_first_bot.collosseum
 
+import com.terdev.colosseum.HeroBuilder
+import com.terdev.colosseum.HeroClassType
+import com.terdev.colosseum.Randomizer
 import org.junit.Test
 
 internal class HeroBuilderTest {
