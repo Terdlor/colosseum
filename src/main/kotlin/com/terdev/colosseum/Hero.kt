@@ -1,8 +1,10 @@
 package com.terdev.colosseum
 
+import com.terdev.colosseum.HeroClassType.*
+import com.terdev.colosseum.jpa.entity.Hero
+
 class Hero(val classType: HeroClassType) {
 
-    var uuid = null
     var isAlive = true
     var name = ""
     var level = 1
@@ -28,38 +30,27 @@ class Hero(val classType: HeroClassType) {
                 "\nЗАЩИТА: $defence" +
                 "\nУВОРОТ: $dodge" +
                 "\nКРИТ ШАНС: $criticalChance\n"
-        /*
-        return  "[ $classType ] $name" +
-                "\nУРОВЕНЬ: $level" +
-                "\nСИЛА: $strength" +
-                "\nЛОВК: $dexterity" +
-                "\nИНТЛ: $intelligence" +
-                "\nУДАЧ: $luck" +
-                "\nЗДОР: $health из $healthMax" +
-                "\nУРОН: $damageMin - $damageMax" +
-                "\nЗАЩИТА: $defence" +
-                "\nУВОРОТ: $dodge" +
-                "\nКРИТ ШАНС: $criticalChance"
+    }
 
-        return  "\nHero(uuid=$uuid, " +
-                "\nisAlive=$isAlive, " +
-                "\nname='$name', " +
-                "\nheroClass='$classType', " +
-                "\nlevel=$level, " +
-                "\nexperience=$experience, " +
-                "\nunspentPoints=$unspentPoints, " +
-                "\nstrength=$strength, " +
-                "\ndexterity=$dexterity, " +
-                "\nintelligence=$intelligence, " +
-                "\nluck=$luck, " +
-                "\nhealthMax=$healthMax, " +
-                "\nhealth=$health, " +
-                "\ndefence=$defence, " +
-                "\ndamageMin=$damageMin, " +
-                "\ndamageMax=$damageMax, " +
-                "\ndodge=$dodge, " +
-                "\ncriticalChance=$criticalChance, " +
-                "\nbattlesWon=$battlesWon)"
-        */
+    fun mapHeroFromDatabase(heroEntity: Hero): com.terdev.colosseum.Hero {
+        val hero = com.terdev.colosseum.Hero(valueOf(heroEntity.classType!!))
+        hero.isAlive = heroEntity.isAlive!!
+        hero.name = heroEntity.name!!
+        hero.level = heroEntity.level!!
+        hero.experience = heroEntity.experience!!
+        hero.strength = heroEntity.strength!!
+        hero.dexterity = heroEntity.dexterity!!
+        hero.intelligence = heroEntity.intelligence!!
+        hero.luck = heroEntity.luck!!
+        hero.healthMax = heroEntity.healthMax!!
+        hero.health = heroEntity.health!!
+        hero.defence = heroEntity.defence!!
+        hero.damageMin = heroEntity.damageMin!!
+        hero.damageMax = heroEntity.damageMax!!
+        hero.dodge = heroEntity.dodge!!
+        hero.criticalChance = heroEntity.criticalChance!!
+        hero.battlesWon = heroEntity.battlesWon!!
+
+        return hero
     }
 }

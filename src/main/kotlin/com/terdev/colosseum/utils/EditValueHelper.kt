@@ -11,9 +11,6 @@ class EditValueHelper {
     }
 
     fun nick(text: String): String {
-        if (text.startsWith("@")) {
-            return text.substringAfter("@")
-        }
-        return text
+        return text.substringAfter("@").substringBefore(" ")
     }
 }

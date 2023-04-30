@@ -1,46 +1,43 @@
 package com.terdev.colosseum.worker
 
+import com.terdev.colosseum.UserCreator
 import com.terdev.colosseum.common.CommandWork
 import com.terdev.colosseum.jpa.dao.UserRepository
 import com.terdev.colosseum.jpa.entity.User
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
 import org.telegram.telegrambots.meta.api.objects.Message
-import java.text.SimpleDateFormat
 
 @Component
 class SaveUserWork : CommandWork() {
 
-    override var command = "saveMe"
-    override var commandDesc = "Сохранение пользователя"
-
-    private val dateFormat = SimpleDateFormat("yyyy-MM-dd'T'HH-mm-ss")
+    override var command = "user"
+    override var commandDesc = "Сохранить пользователя"
 
     @Autowired
-    lateinit var userRepository: UserRepository
+    lateinit var userCreator: UserCreator
 
     override fun commandWork(msg: Message) {
-        val strBuild = StringBuilder()
-
-        if (!checkUserExists(msg)) {
-            val user = User()
-            user.telegramId = msg.from.id
-            user.telegramHandle = msg.from.userName
-            user.isBot = msg.from.isBot
-            user.firstName = msg.from.firstName
-            user.lastName = msg.from.lastName
-
-            userRepository.save(user)
-            strBuild.appendLine("Пользователь создан")
-        } else {
-            strBuild.appendLine("\nПользователь уже существует")
+        val output = StringBuilder()
+        output.appendLine(userCreator.createUser(msg))
+        
+        val user = userCreator.getUser(msg.from.userName)
+        if (user != null) {
+            output.appendLine(
+                    "${user.id} | " +
+                            "${user.telegramId} | " +
+                            "${user.telegramHandle} | " +
+                            "${user.isBot} | " +
+                            "${user.firstName} | " +
+                            "${user.lastName} | " +
+                            "${user.dateCreated}"
+            )
         }
-
-        rsSH.sendSimpleNotification(msg.chatId, strBuild.toString())
+        else {
+            output.appendLine("SaveUserWork: Ошибка! Пользователь не найден")
+        }
+        rsSH.sendSimpleNotification(msg.chatId, output.toString())
     }
 
-    fun checkUserExists(msg: Message): Boolean {
-        return userRepository.countByTelegramId(msg.from.id) > 0
-    }
 
 }

@@ -1,13 +1,11 @@
 package com.terdev.colosseum.worker
 
-import com.terdev.colosseum.common.CommandWork
 import com.terdev.colosseum.common.ForwardWork
 import com.terdev.colosseum.jpa.dao.UserRepository
 import com.terdev.colosseum.jpa.entity.User
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
 import org.telegram.telegrambots.meta.api.objects.Message
-import java.text.SimpleDateFormat
 
 @Component
 class SaveForwardedUserWork : ForwardWork() {
@@ -19,7 +17,7 @@ class SaveForwardedUserWork : ForwardWork() {
     lateinit var userRepository: UserRepository
 
     override fun forwardWork(msg: Message) {
-        val strBuild = StringBuilder()
+        val output = StringBuilder()
 
         if (!checkUserExists(msg)) {
             val user = User()
@@ -28,14 +26,13 @@ class SaveForwardedUserWork : ForwardWork() {
             user.isBot = msg.forwardFrom.isBot
             user.firstName = msg.forwardFrom.firstName
             user.lastName = msg.forwardFrom.lastName
-
             userRepository.save(user)
-            strBuild.appendLine("Пользователь создан")
+            output.appendLine("Пользователь создан")
         } else {
-            strBuild.appendLine("\nПользователь уже существует")
+            output.appendLine("Пользователь уже существует")
         }
 
-        rsSH.sendSimpleNotification(msg.chatId, strBuild.toString())
+        rsSH.sendSimpleNotification(msg.chatId, output.toString())
     }
 
     fun checkUserExists(msg: Message): Boolean {

@@ -6,4 +6,11 @@ import org.springframework.data.jpa.repository.JpaRepository
 
 interface HeroRepository : JpaRepository<Hero, String> {
 
+    fun getByUserLink(userLink: User) : Hero
+
+    fun getByUserLinkAndIsAlive(userLink: User, isAlive: Boolean = true) : Hero
+
+    fun countByUserLink(userLink: User) : Long
+
+    fun countByUserLinkAndIsAlive(userLink: User, isAlive: Boolean = true) : Long
 }

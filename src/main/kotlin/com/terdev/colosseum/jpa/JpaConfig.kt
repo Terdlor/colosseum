@@ -1,5 +1,6 @@
 package com.terdev.colosseum.jpa
 
+import com.terdev.colosseum.Admin
 import com.zaxxer.hikari.HikariConfig
 import com.zaxxer.hikari.HikariDataSource
 import org.springframework.boot.context.properties.ConfigurationProperties
@@ -47,4 +48,8 @@ class JpaConfig {
 
     @Bean
     fun dataSource() = HikariDataSource(hikariConfig())
+
+    @Bean()
+    @ConfigurationProperties(prefix = "admin")
+    fun adminConfig() = Admin()
 }

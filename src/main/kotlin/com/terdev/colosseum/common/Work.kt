@@ -1,5 +1,6 @@
 package com.terdev.colosseum.common
 
+import com.terdev.colosseum.Admin
 import com.terdev.colosseum.utils.*
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.core.env.Environment
@@ -23,6 +24,9 @@ abstract class Work {
 
     @Autowired
     lateinit var rqH: RequestHelper
+
+    @Autowired
+    lateinit var admin: Admin
 
     abstract var command: String
     abstract var commandDesc: String
@@ -85,4 +89,8 @@ abstract class Work {
     }
 
     fun getFile(fileId: String) = rqH.getFile(fileId)
+
+    fun userHasAdminRights(msg: Message): Boolean {
+        return admin.id.contains(msg.from.id)
+    }
 }

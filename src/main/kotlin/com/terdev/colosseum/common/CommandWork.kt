@@ -1,5 +1,6 @@
 package com.terdev.colosseum.common
 
+import com.terdev.colosseum.Admin
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.core.env.Environment
 import org.telegram.telegrambots.meta.api.objects.Message
